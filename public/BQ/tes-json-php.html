@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <!-- Form dengan elemen select -->
+<form id="form">
+  <select name="provinsi" id="provinsi">
+    <option value="">Pilih provinsi</option>
+  </select>
+
+  <!-- Elemen select yang akan ditampilkan sesuai dengan pilihan -->
+  <select name="kota" id="kota">
+    <!-- Option akan ditampilkan di sini -->
+  </select>
+  <select name="kecamatan" id="kecamatan">
+    <!-- Option akan ditampilkan di sini -->
+  </select>
+</form>
+
+<script>
+  // Mendapatkan data provinsi
+  $.getJSON('http://www.emsifa.com/api-wilayah-indonesia/api/provinces.json', provinsi => {
+
+  // Menambahkan option ke dalam elemen select provinsi
+  provinsi.forEach(item => {
+    $('#provinsi').append(`
+      <option value="${item.id}" data-prov="${item.name}">${item.name}</option>
+    `);
+  });
+
+  // Menangani event change pada elemen select provinsi
+  $('#provinsi').change(function() {
+    // Mendapatkan nilai yang dipilih
+    const id_prov = $(this).val();
+    const op_prov=$(this).find(`option[value="${id_prov}"]`);
+    const provinsi=op_prov.attr('data-prov');
+    console.log(provinsi);
+
+    // Menampilkan elemen select kota sesuai dengan pilihan
+    if (id_prov) {
+      // Membuat request AJAX menggunakan jQuery
+      $.get(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${id_prov}.json`, function(data) {
+        // Menghapus semua option yang ada di elemen select kota
+        $('#kota').html('');
+
+        // Menambahkan option ke dalam elemen select kota
+        data.forEach(item => {
+          $('#kota').append(`
+            <option value="${item.id}" data-kota="${item.name}">${item.name}</option>
+          `);
+        });
+
+        //kecamatan
+        $('#kota').change(function () {
+          const id_kota=$(this).val();
+          const op_kota=$(this).find(`option[value="${id_kota}"]`);
+    const kota =op_kota.attr('data-kota');
+    console.log(kota);
+
+          if(id_kota){
+            $.get(`https://alzan72.github.io/api-wilayah-indonesia/api/districts/${id_kota}.json`,function (city) {
+              city.forEach(isi => {
+                $('#kecamatan').append(`
+                <option value="${isi.id}" data-kecamatan="${isi.name}">${isi.name}</option>
+                `)
+              })
+              $('#kecamatan').change(function () {
+                const id_kec=$(this).val();
+          const op_kec=$(this).find(`option[value="${id_kec}"]`);
+    const kec=op_kec.attr('data-kota');
+    console.log(kec);
+                
+              })
+            });
+          }
+          else {
+            $('#kecamatan').html('');
+          }
+
+        })
+
+      });
+    } else {
+      // Menyembunyikan elemen select kota
+      $('#kota').html('');
+    }
+  });
+});
+</script>
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+       <!-- Css lokal -->
+       <link rel="stylesheet" href="style-html.css">
+
+       <!-- Css BS -->
+
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+       <!-- JS bootstarp -->
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+   
+       <!-- AOS -->
+       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+   
+       <!-- Json -->
+       <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+   
+       <!-- css animated -->
+       <link
+       rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+     />
+  <!-- datatables -->
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+    <section>
+        <div class="container">
+          <div class="row">
+            <div class="col"><h1><center>Daftar Siswa Imtaq Shigar Baitul Quran</center></h1></div>
+          </div>
+            <div class="row pt-5">
+                <div class="col" id="show-data"></div>
+            </div>
+        </div>
+    </section>
+    
+
+<script>
+$(document).ready(function ()  {
+  
+  const $showData = $('#show-data');
+
+
+    //  jangan refresh halaman     
+
+    $showData.text('Loading the JSON file.');
+
+    $.getJSON('http://localhost/Project/Latihan/Baitul-Quran/json.php', function (respon)  {
+     
+      const markup = `
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>Alamat</th>
+      <th>Jenis kelamin</th>
+      <th>No.hp</th>
+      <th>Tgl-lahir</th>
+      <th>Motivasi</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${respon.map(item => `
+      <tr>
+        <td class="">${item['ID']}</td>
+        <td class="">${item['Nama']}</td>
+        <td class="">${item['Alamat']}</td>
+        <td class="">${item['jenis-kelamin']}</td>
+        <td class="">${item['No.HP']}</td>
+        <td class="">${item['Tgl.Lahir']}</td>
+        <td class="">${item['Motivasi']}</td>
+      </tr>
+    `).join('')}
+  </tbody>
+`;
+
+      const list = $('<table class="table table-bordered border-primary">').html(markup);
+
+        // let tab= $(list).DataTable();
+      $showData.html(list);
+
+    });
+  
+  
+});
+
+</script>
+
+</body>
+</html>
