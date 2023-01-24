@@ -17,6 +17,8 @@
            
             <form action="/Update" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                <input type="hidden" value="{{ $url = url()->previous();
+                }}" name="url">
                 <input type="hidden" value="{{ $id->id }}" name="id">
                 <div class="row">
                     <label for="">Number</label><br>
@@ -33,6 +35,15 @@
                 <div class="row">
                     <label for="">Email</label> <br>
                     <input type="email" name="email" value="{{ $id->email }}" class="form-control">
+                </div>
+                <div class="row">
+                    <label for="">Group</label> <br>
+                   <select name="group" id="" class="form-select">
+                    <option value="">Choose Group...</option>
+                    @foreach ( $group as $g )
+                    <option value="{{ $g->id }}" {{ $g->id == $id->group_id ? 'selected' : '' }} >{{ $g->group_name }}</option>
+                    @endforeach
+                   </select>
                 </div>
                 <div class="row">
                     <div class="col">

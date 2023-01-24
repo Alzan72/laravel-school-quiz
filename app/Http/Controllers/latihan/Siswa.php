@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\latihan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Siswa as ModelsSiswa;
+use App\Models\Latihan\Siswa as ModelsSiswa;
 use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

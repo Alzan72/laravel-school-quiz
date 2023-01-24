@@ -9,4 +9,10 @@ class kategori extends Model
 {
     use HasFactory;
     protected $guarded=['id'];
+
+    public function post()
+    {
+        return $this->hasMany(post2::class,'kategory_id');
+    }
 }
+

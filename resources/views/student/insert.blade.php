@@ -34,6 +34,15 @@
                     <input type="email" name="email" class="form-control">
                 </div>
                 <div class="row">
+                    <label for="">Group</label> <br>
+                   <select name="group" id="" class="form-select">
+                    <option value="">Choose Group...</option>
+                    @foreach ( $group as $g )
+                        <option value="{{ $g->id }}">{{ $g->group_name }}</option>
+                    @endforeach
+                   </select>
+                </div>
+                <div class="row">
                     <label for="">Photo</label> <br>
                     <input type="file" name="photo" class="form-control">
                 </div>

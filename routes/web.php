@@ -1,13 +1,16 @@
 <?php
 
-
-use App\Models\post;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TabelController;
-use App\Http\Controllers\latihan\PostController;
-use App\Http\Controllers\latihan\Siswa;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\student\student;
-use Illuminate\Routing\Route as RoutingRoute;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\latihan\PostController;
+use App\Models\groupstudent;
+use App\Models\kategori;
+use App\Http\Controllers\student\Group;
+use App\Http\Controllers\student\schedule;
+use App\Http\Controllers\student\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,56 +23,60 @@ use Illuminate\Routing\Route as RoutingRoute;
 |
 */
 
-
-// default menggunakan enclosure
 Route::get('/', function () {
-    return view('latihan/index', [
-        "title" => "Beranda"
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
     ]);
 });
 
-Route::get('/pendaftaran', function () {
-    return view('latihan/pendaftaran', [
-        "title" => "Pendaftaran"
-    ]);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+
+    //Students
+    Route::controller(student::class)->group( function(){
+    Route::get('/student/index','index');
+    Route::post('student/Create','create');
+    Route::get('/student/edit/{id}','edit');
+    Route::post('/Update','update');
+    Route::post('/student/remove/','delete');
+    Route::get('/student/add','add');
+    });
+   
+// user
+    Route::get('/user', [User::class,'index']);
+    Route::get('/user/add',function(){
+        return view('student.useradd',['group'=>groupstudent::all()]);
+    });
+//group
+    Route::get('/group',[Group::class,'index']);
+    Route::get('/group/{id}',[Group::class,'group']);
+  // schedule
+    Route::get('/schedule',[schedule::class,'index']);
+
+    // login
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+  
 });
 
-Route::get('/kontak', function () {
-    return view('latihan/kontak', [
-        "title" => "Kontak" 
-    ]);
-});
+require __DIR__.'/auth.php';
 
-
-
-//menggunakan controler
 Route::get('/post', [PostController::class,'index']);
 
 //Denga route model binding
 Route::get('/post/{post:slug}', [PostController::class,'show']);
-
-//Cara manual
-// Route::get('/post/{slug}', [PostController::class,'show']);
-                        //nama controller, fungsi/method
-
-Route::get('/latihan/tabel', [TabelController::class, 'index']);
-
-// Siswa
-Route::get('/siswa/siswa', [Siswa::class, 'index']);
-Route::get('/siswa/edit/{id}', [Siswa::class, 'edit']);
-Route::post('/siswa/EditAction/{post}', [Siswa::class, 'update']);
-Route::get('/siswa/create', [Siswa::class, 'create']);
-Route::post('/siswa/CreateAction', [Siswa::class, 'input']);
-Route::get('/siswa/delete/{id}',[Siswa::class, 'delete']);
-
-// Student
-Route::get('student/index',[student::class,'index']);
-Route::get('student/add',function(){
-    return view('student/insert');
+Route::get('/category/{category:slug}', function(kategori $category){
+    return view('/latihan/category', [
+        'category'=>$category->name,
+        'posts'=>$category->post,
+        'title'=>$category->name
+    ]); 
 });
-Route::post('student/Create',[student::class,'create']);
-Route::get('/student/edit/{id}', [student::class,'edit']);
-Route::post('/Update', [student::class,'update']);
-Route::get('/student/remove/{delete}', [student::class,'delete']);
-
-

@@ -11,4 +11,9 @@ class post2 extends Model
 
   //  protected $fillable=['title','excerpt','body']; Memilih field yang boleh di isi
   protected $guarded=['id'];  // Semua boleh diisi kecuali id
+
+  public function kategori()
+  {
+    return $this->belongsTo(kategori::class,'kategory_id');
+  }
 }
