@@ -1,16 +1,18 @@
 <?php
 
+use App\Http\Controllers\article;
 use Inertia\Inertia;
+use App\Models\kategori;
+use App\Models\groupstudent;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\student\User;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\student\student;
+use App\Http\Controllers\student\schedule;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\latihan\PostController;
-use App\Models\groupstudent;
-use App\Models\kategori;
-use App\Http\Controllers\student\Group;
-use App\Http\Controllers\student\schedule;
-use App\Http\Controllers\student\User;
+use App\Http\Controllers\student\GroupController;
+use App\Http\Controllers\student\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,17 +49,45 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/remove/','delete');
     Route::get('/student/add','add');
     });
-   
-// user
+
     Route::get('/user', [User::class,'index']);
     Route::get('/user/add',function(){
         return view('student.useradd',['group'=>groupstudent::all()]);
     });
-//group
-    Route::get('/group',[Group::class,'index']);
-    Route::get('/group/{id}',[Group::class,'group']);
-  // schedule
-    Route::get('/schedule',[schedule::class,'index']);
+
+    Route::controller(GroupController::class)->group(function(){
+    Route::get('/group','index');
+    Route::get('/group/delete/{delete}','delete');
+    Route::get('/group/add','add');
+    Route::get('/group/edit/{edit}','edit');
+    Route::post('/group/create','create');
+    Route::post('/group/update','update');
+    Route::get('/group/{id}','group');
+    });
+    // Route::get('/group/tambah',[GroupController::class,'index']);
+    
+  Route::controller(schedule::class)->group(function(){
+    Route::get('/schedule','index');
+    Route::get('/schedule/add','add');
+    Route::get('/schedule/edit/{edit}','edit');
+    Route::get('/schedule/delete/{del}','delete');
+    Route::post('/schedule/create','create');
+    Route::post('/schedule/update','update');
+  });
+
+Route::resource('lesson',LessonController::class)->except(['destroy']);
+
+//  article
+Route::controller(article::class)->group( function(){
+    Route::get('/article/index','index');
+    Route::post('article/create','create');
+    Route::get('/article/edit/{id}','edit');
+    Route::post('/article/update','update');
+    Route::get('/article/remove/{delete}','delete');
+    Route::get('/article/add','add');
+    });
+
+ 
 
     // login
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

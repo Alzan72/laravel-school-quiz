@@ -15,7 +15,7 @@
 
 
 <div class="container">
-    <a href="/student/add" class="btn btn-primary">Add Data</a>
+    <a href="{{ route('lesson.create') }}" class="btn btn-primary">Add Data</a>
         <div class="row">
             <div class="col">
                 <table class="table">
@@ -23,31 +23,24 @@
                         <tr>
                             <td>#</td>
                             <td>ID</td>
-                            <td>Number</td>
-                            <td>Name</td>
-                            <td>Phone</td>
-                            <td>Email</td>
-                            <td>Group</td>
-                            <td>Photo</td>
+                            <td>Lesson</td>
+                            <td>Start</td>
+                            <td>End</td>
                             <td>Action</td>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <form action="/student/remove" method="post">
+                        <form action="" method="post">
                     @foreach ($post as $item )
                         <tr>
                             
                                 @csrf
-                            <td><input type="checkbox" value="{{ $item->id }},{{ $item->photo }}" name="remove[]" id=""></td>    
+                            <td><input type="checkbox" value="{{ $item->id }}" name="remove[]" id=""></td>    
                             <td>{{ $item->id }}</td>
-                            <td>{{ $item->number }}</td>
                             <td>{{ $item->name }}</td>
-                            <td>{{ $item->phone }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>{{ $item->group->group_name !=NULL ?$item->group->group_name:'Belum memilih' }}</td>
-                            <td><img src="/Student/img/{{ $item->photo }}" width="50px" height="50px" alt="">
-                            </td>
+                            <td>{{ $item->start }}</td>
+                            <td>{{ $item->end }}</td>
                             <td><a href="edit/{{ $item->id }}" class="btn btn-success">Edit</a>
                             {{-- <a href="/student/remove/{{ $item->id }}" class="btn btn-danger">Remove</a> --}}
                             </td>

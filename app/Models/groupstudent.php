@@ -11,6 +11,7 @@ class groupstudent extends Model
 {
     use HasFactory;
     protected $guarded=['id'];  // Semua boleh diisi kecuali id
+    
     public function students()
     {
         return $this->hasMany(Student::class,'group_id');

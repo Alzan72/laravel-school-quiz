@@ -148,27 +148,45 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/article/index">
               <i class="fa-solid fa-book"></i>
               Posts
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">              
+            <a class="nav-link" href="/lesson">
+              <i class="fa-solid fa-book"></i>
+              Lesson
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/student/index">              
               <i class="fa-solid fa-user"></i>
               Students
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/students/absensi">              
+            <a class="nav-link" href="#">              
               <i class="fa-solid fa-user"></i>
               Presences
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">              
+            <a class="nav-link" href="/schedule">              
               <i class="fa-solid fa-user"></i>
               Schedules
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/group">              
+              <i class="fa-solid fa-user"></i>
+              Group
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user">              
+              <i class="fa-solid fa-user"></i>
+              User
             </a>
           </li>
         </ul>
