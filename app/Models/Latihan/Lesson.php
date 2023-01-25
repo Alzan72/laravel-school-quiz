@@ -10,8 +10,8 @@ class Lesson extends Model
     use HasFactory;
     protected $guarded=['id'];
 
-    public function schedule()
+    public function schedules()
     {
-        return $this->hasMany(Schedule::class,'schedule_id');
+        return $this->hasMany(Schedule::class,'lesson_id');
     }
 }

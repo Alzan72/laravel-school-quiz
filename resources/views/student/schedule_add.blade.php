@@ -35,19 +35,18 @@
                         @endforeach
                     </select>
                 </div> --}}
-                <input type="hidden" value="{{ Auth::user()->id }}" name="user">
-                 
-                <input type="hidden" name="group"
-                @foreach ( $group as $g )
-                value=" {{ $g->user_id==Auth::user()->id ? $g->id : '' }}"
-                @endforeach >
-              
+                    <input type="hidden" value="{{ Auth::user()->id }}" name="user">
+                    @foreach( $group as $g )
+                    @if($g->user_id == Auth::user()->id)
+                        <input type="hidden" name="group" value="{{ $g->id }}">
+                    @endif
+                @endforeach             
                 {{-- <div class="row">
                     <label for="">Group</label> <br>
-                   <select name="group" id="" class="form-select" disabled>
+                   <select name="group" id="" class="form-select" >
                     <option value="">Choose Group...</option>
                     @foreach ( $group as $g )
-                    <option value="{{ $g->id }}" {{ $g->user_id==Auth::user()->id ? 'selected' : '' }}>{{ $g->group_name }}</option>
+                    <option value="{{ $g->id }}" >{{ $g->group_name }}</option>
                     @endforeach
                    </select>
                 </div> --}}
@@ -59,3 +58,5 @@
 
 
 @endsection
+
+{{-- {{ $g->user_id==Auth::user()->id ? 'selected' : '' }} --}}

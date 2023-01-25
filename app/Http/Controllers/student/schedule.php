@@ -33,7 +33,7 @@ class schedule extends Controller
     {
         return view('student.schedule_add',[
             'lesson'=>Lesson::all(),
-            'us'
+            'user'=>User::all(),
             'group'=>groupstudent::all()
         ]);
     }
@@ -47,7 +47,7 @@ class schedule extends Controller
         LatihanSchedule::create([
             'user_id'=>$insert->user,
             'group_id'=>$insert->group,
-            'schedule_id'=>$insert->lesson
+            'lesson_id'=>$insert->lesson
         ]);
         return redirect('/schedule')->with('succes','Succes add schedule');
         
@@ -75,8 +75,11 @@ class schedule extends Controller
     $data->where('id',$update->id)->update([
             'user_id'=>$update->user,
             'group_id'=>$update->group,
-            'schedule_id'=>$update->lesson
+            'lesson_id'=>$update->lesson
         ]);
+    // $data->where('id',$update->id)->update([
+    //         'lesson_id'=>$update->lesson
+    //     ]);
         return redirect('/schedule')->with('succes','Succes update schedule');
 
     }

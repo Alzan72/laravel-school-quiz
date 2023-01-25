@@ -15,4 +15,8 @@ class Student extends Model
     {
         return $this->belongsTo(groupstudent::class);
     }
+    public function absensi()
+    {
+        return $this->belongsTo(Absensi::class);
+    }
 }

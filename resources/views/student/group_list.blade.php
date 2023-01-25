@@ -15,6 +15,19 @@
 <div class="container">
     <div class="row">
         <div class="col">
+           
+            <form action="/group/add_member" method="post" class="form-control">
+                @csrf
+                <input type="hidden" value="{{ $post->id }}" name="group">
+            <label for="">Add Student</label>
+            <select name="student" id="" class="form-control">
+                <option value="">Chosee Student</option>
+                @foreach ($student as $st)
+                    <option value="{{ $st->id }}">{{ $st->name }}</option>
+                @endforeach
+            </select>
+            <button class="btn btn-primary">Add</button>
+            </form><br>
             <table class="table">
                 <thead>
                     <tr>
@@ -27,12 +40,12 @@
                     <td>Action</td>
                 </tr>
                 </thead>
-                <form action="/student/remove" method="post">
+                
                 <tbody>
                     @foreach ($post->students as $item)
                     <tr>
-                        @csrf
-                        <td><input type="checkbox" value="{{ $item->id }},{{ $item->photo }}" name="remove[]" id=""></td>
+               
+                        
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->number }}</td>
                          <td>{{ $item->name}}</td>     
@@ -43,8 +56,7 @@
                    </tr>
                    @endforeach
                 </tbody>
-                <button class="btn btn-danger">Delete</button>
-            </form>
+               
             </table>
             </div>
         </div>

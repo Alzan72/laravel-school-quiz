@@ -20,20 +20,9 @@
                 <input type="hidden" value="{{ $post->id }}" name="id">
                 <div class="row">
                     <label for="">Lesson</label> <br>
-                    <select name="lesson" id="" class="form-select">
-                        <option value="">Choose lesson</option>
-                        @foreach ($lesson as $item)
-                            <option value="{{ $item->id }}"{{ $item->id == $post->lesson_id ? 'selected' : '' }} >{{ $item->name }}</option>
-                        @endforeach
-                    </select>
+                  <input type="text" value="{{ $post->schedule_id }}" name="lesson">
                 </div>
-                <input type="hidden" value="{{ Auth::user()->id }}" name="user">
-                @foreach( $group as $g )
-                @if($g->user_id == Auth::user()->id)
-                    <input type="hidden" name="group" value="{{ $g->id }}">
-                @endif
-            @endforeach    
-                {{-- <div class="row">
+                <div class="row">
                     <label for="">Dosen</label> <br>
                     <select name="user" id="" class="form-select" disabled>
                         <option value="">Choose dosen</option>
@@ -50,7 +39,7 @@
                         <option value="{{ $g->id }}" {{ $g->id == $post->group_id ? 'selected' : '' }}>{{ $g->group_name }}</option>
                     @endforeach
                    </select>
-                </div> --}}
+                </div>
                 <button class="btn btn-primary">Submit</button>
             </form>
         </div>

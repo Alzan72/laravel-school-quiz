@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\article;
 use Inertia\Inertia;
 use App\Models\kategori;
 use App\Models\groupstudent;
+use App\Http\Controllers\article;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\student\User;
 use Illuminate\Foundation\Application;
@@ -13,6 +13,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\latihan\PostController;
 use App\Http\Controllers\student\GroupController;
 use App\Http\Controllers\student\LessonController;
+use App\Http\Controllers\student\AbsensiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/group/edit/{edit}','edit');
     Route::post('/group/create','create');
     Route::post('/group/update','update');
+    Route::post('/group/add_member','add_member');
     Route::get('/group/{id}','group');
     });
     // Route::get('/group/tambah',[GroupController::class,'index']);
@@ -75,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/schedule/update','update');
   });
 
+Route::resource('presence',AbsensiController::class);
 Route::resource('lesson',LessonController::class)->except(['destroy']);
 
 //  article

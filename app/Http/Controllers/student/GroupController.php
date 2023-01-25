@@ -4,6 +4,7 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Models\groupstudent;
+use App\Models\Latihan\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,11 @@ class GroupController extends Controller
         ]);
     }
     public function group(groupstudent $id)
-    {
+    {  
         return view('student.group_list',[
             
             'post'=>$id,
+            'student'=> Student::all(),
             'title'=>'group-list'
         ]);
     }
@@ -69,5 +71,19 @@ class GroupController extends Controller
             'group_name'=>$update->group
         ]);
         return redirect('/group')->with('success','Succes add the group');
+    }
+
+    public function add_member(Request $insert, Student $data)
+    {
+        $this->validate($insert,[
+            'group'=>'required',
+            'student'=>'required'
+        ]);
+        $data->where('id',$insert->student)->update([
+            'id'=>$insert->student,
+            'group_id'=>$insert->group
+        ]);
+
+        return redirect("/group/$insert->group")->with('success','Succes add the group');
     }
 }
