@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\student;
 
+use DateTimeZone;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Latihan\Absensi;
 
+use App\Models\Latihan\Absensi;
 use App\Models\Latihan\Student;
 use App\Models\Latihan\Schedule;
 use App\Http\Controllers\Controller;
@@ -32,27 +33,10 @@ class AbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function create()
-    // {
-    //     $ti = now()->setTimezone('Asia/Jakarta');
-    //     $time = $ti->format('H:i:s');
-    
-    //     $schedules = Schedule::with('lesson')->get();
-    //     foreach ($schedules as $schedule) {
-    //         $sd = $schedule->lesson->start;
-    //         if ($time == $sd) {
-                
-    //         }
-    //     }
-    
-    //     // return view('student.absensi_insert', [
-    //     //     'title' => 'index'
-    //     // ]);
-    // }
 
     public function create()
     {
-        $ti = now()->setTimezone('Asia/Jakarta');
+        $ti = Carbon::now('Asia/Jakarta');
         $time = $ti->format('H:i:s');
     
         $schedules = Schedule::with('lesson')->get();
@@ -60,17 +44,16 @@ class AbsensiController extends Controller
         foreach($schedules as $schedule){
             $sd = $schedule->lesson->start;
             // Mengubah waktu start menjadi objek Carbon
-            $startTime = Carbon::parse($sd);
+            $startTime = Carbon::createFromFormat('H:i:s', $sd);
             // Menambahkan 10 menit pada waktu start
-            $waktu = $startTime->addMinutes(10);
-            $start = $waktu->format('H:i:s');
-            $timeNow = Carbon::now('Asia/Jakarta');
-            if ($timeNow->diffInMinutes($waktu) <= 10) {
+            $startTime->addMinutes(10);
+            $start=$startTime->format('H:i:s');
+            if ($time >= $sd && $time <= $start) {
                 $validSchedules[] = $schedule;
             }
         }
-        // dd($timeNow);
-    
+
+        // dd($time);
         return view('student.absensi_insert', [
             'student' => Student::all(),
             'schedule' => $validSchedules,
@@ -78,33 +61,6 @@ class AbsensiController extends Controller
         ]);
     }
     
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request,[
-            'status'=>'required'
-        ]);
-        // dd($request->all());
-        foreach($request->status as $name=> $status){
-            $note = $request->note[$name];
-            Absensi::create([
-                'student_id'=>$name,
-                'status'=>$status,
-                'note'=>$note,
-                'schedule_id'=>$request->schedule
-            ]);
-        }
-        
-        
-       return redirect()->route('presence.index')->with('succes','Succes');
-        
-    }
 
     /**
      * Display the specified resource.
