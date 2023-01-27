@@ -19,7 +19,9 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->group->group_name }}</td>
+                        <td>  @if ($item->group)
+                            {{ $item->group->group_name }} @else Tidak ada
+                        @endif</td>
                     </tr>
                     @endforeach
                 </tbody>

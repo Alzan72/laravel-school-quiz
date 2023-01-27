@@ -26,4 +26,9 @@ class Schedule extends Model
     {
             return $this->belongsTo(Lesson::class);
     }
+
+    public function absensis()
+    {
+         return $this->hasMany(Absensi::class);
+    }
 }

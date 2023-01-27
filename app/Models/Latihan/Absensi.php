@@ -21,11 +21,12 @@ class Absensi extends Model
         return $this->students();
     }
 
+   
+
     public function schedule()
-    {
-        // dd($this->belongsTo(Schedule::class));
-        return $this->belongsTo(Schedule::class);
-    }
+{
+    return $this->belongsTo(Schedule::class);
+}
 
     // public function lesson()
     // {

@@ -103,7 +103,8 @@
                 {{ Auth::user()->name }}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                <li><a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">Logout</a></li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                   @csrf
               </form>
@@ -166,7 +167,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">              
+            <a class="nav-link" href="/presence">              
               <i class="fa-solid fa-user"></i>
               Presences
             </a>

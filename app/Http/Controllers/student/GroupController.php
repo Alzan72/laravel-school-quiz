@@ -48,7 +48,7 @@ class GroupController extends Controller
             'group_name'=>$insert->group
         ]);
 
-        return redirect('/group')->with('success','Succes add the group');
+        return redirect('/group')->route('')->with('success','Succes add the group');
 
     }
 
@@ -85,5 +85,11 @@ class GroupController extends Controller
         ]);
 
         return redirect("/group/$insert->group")->with('success','Succes add the group');
+    }
+
+    public function delete(groupstudent $delete)
+    {
+        $delete->delete();
+        return redirect('/group')->with('success','Succes delete the group');
     }
 }

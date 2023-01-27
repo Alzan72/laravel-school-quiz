@@ -65,7 +65,8 @@ class student extends Controller
             'email'=>'required|min:8',
             'number'=>'required|min:7|max:10',
             'phone'=>'required|min:10|max:12',
-            'photo' => 'file|mimes:jpeg,png,jpg|max:2048'
+            'photo' => 'file|mimes:jpeg,png,jpg|max:2048',
+            'group'=>'required'
         ]);
 
         if ($update->hasFile('photo')) {
@@ -83,7 +84,8 @@ class student extends Controller
             'number'=>$update->number,
             'phone'=>$update->phone,
             'email'=>$update->email,
-            'photo'=>$nameFile
+            'photo'=>$nameFile,
+            'group_id'=>$update->group
         ]);
 }
 else{
@@ -91,7 +93,8 @@ else{
         'name'=> $update->name,
         'number'=>$update->number,
         'phone'=>$update->phone,
-        'email'=>$update->email
+        'email'=>$update->email,
+        'group_id'=>$update->group
     ]);
 }
 

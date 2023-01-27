@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/user', [User::class,'index']);
+    Route::get('/user/edit/{edit}', [User::class,'edit']);
     Route::get('/user/add',function(){
         return view('student.useradd',['group'=>groupstudent::all()]);
     });
@@ -79,6 +80,7 @@ Route::middleware('auth')->group(function () {
   });
 
 Route::resource('presence',AbsensiController::class);
+Route::get('/presence/lesson/{absensi:schedule_id}',[AbsensiController::class,'lesson']);
 Route::resource('lesson',LessonController::class)->except(['destroy']);
 
 //  article

@@ -37,7 +37,7 @@
                         <form action="/student/remove" method="post">
                     @foreach ($post as $item )
                         <tr>
-                            
+                            {{-- $item->group->group_name --}}
                                 @csrf
                             <td><input type="checkbox" value="{{ $item->id }},{{ $item->photo }}" name="remove[]" id=""></td>    
                             <td>{{ $item->id }}</td>
@@ -45,7 +45,11 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->email }}</td>
-                            <td>{{ $item->group->group_name !=NULL ?$item->group->group_name:'Belum memilih' }}</td>
+                            <td>
+                                @if ($item->group)
+                                    {{ $item->group->group_name }} @else Tidak ada
+                                @endif
+                            </td>
                             <td><img src="/Student/img/{{ $item->photo }}" width="50px" height="50px" alt="">
                             </td>
                             <td><a href="edit/{{ $item->id }}" class="btn btn-success">Edit</a>

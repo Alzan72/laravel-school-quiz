@@ -15,7 +15,8 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="{{ route('presence.create') }}" class="btn btn-primary">Add Schedule</a>
+            <a href="/presence" class="btn btn-danger"><- Back</a>
+            <a href="{{ route('presence.create') }}" class="btn btn-primary">Add absensi</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -25,21 +26,36 @@
                     <td>Note</td>
                     <td>Schedule</td>
                     <td>action</td>
+                    <td>Time</td>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach ($post as $item)
-
+                    
+                    @foreach ( $post as $item )
+                        
+               
                     <tr>
                        <td>{{ $no++ }}</td>
-                       <td>{{ $item->students->name}}</td>
+                       <td> @if ( $item->students)
+                        {{ $item->students->name}} @else Tidak ada
+                       @endif
+                       </td>
                        <td>{{ $item->status }}</td>
                        <td>{{ $item->note }}</td>
-                       <td>{{ $item->schedule->lesson->name }}</td>
-                        <td><a href="/schedule/edit/{{ $item->id }}" class="btn btn-success">Edit</a></td>
-                        <td><a href="/schedule/delete/{{ $item->id }}" class="btn btn-danger">Delete</a></td>
+                       <td>
+                        @if ( $item->schedule)
+                        {{ $item->schedule->lesson->name }} 
+                        @else 
+                        Tidak ada
+                        @endif
+                       </td>
+                        <td><a href="/schedule/edit/{{ $item->id }}" class="btn btn-success">Edit</a>
+                        <a href="/schedule/delete/{{ $item->id }}" class="btn btn-danger">Delete</a>
+                    </td>
+                    <td>{{ $item->created_at }}</td>
                     </tr>
                     @endforeach
+                
                 </tbody>
             </table>
             </div>

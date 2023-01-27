@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\student;
 
-use App\Models\Latihan\Absensi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Latihan\Schedule;
+use App\Models\Latihan\Absensi;
+
 use App\Models\Latihan\Student;
+use App\Models\Latihan\Schedule;
+use App\Http\Controllers\Controller;
 
 class AbsensiController extends Controller
 {
@@ -17,11 +19,12 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        return view('student.absensi_list',[
-            'post'=>Absensi::all(),
-            'no'=>1,
-            'title'=>'absensi'
-        ]);
+    $data=Absensi::all();
+       return view('student.absensi',[
+        'post'=>$data->unique('schedule_id')->values(),
+        // 'schedule'=>$data->schedule->lesson->unique('name'),
+        'title'=>'presence'
+       ]);
     }
 
     /**
@@ -29,14 +32,52 @@ class AbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function create()
+    // {
+    //     $ti = now()->setTimezone('Asia/Jakarta');
+    //     $time = $ti->format('H:i:s');
+    
+    //     $schedules = Schedule::with('lesson')->get();
+    //     foreach ($schedules as $schedule) {
+    //         $sd = $schedule->lesson->start;
+    //         if ($time == $sd) {
+                
+    //         }
+    //     }
+    
+    //     // return view('student.absensi_insert', [
+    //     //     'title' => 'index'
+    //     // ]);
+    // }
+
     public function create()
     {
-        return view('student.absensi_insert',[
-            'student'=>Student::all(),
-            'schedule'=>Schedule::all(),
-            'title'=>'index'
+        $ti = now()->setTimezone('Asia/Jakarta');
+        $time = $ti->format('H:i:s');
+    
+        $schedules = Schedule::with('lesson')->get();
+        $validSchedules = [];
+        foreach($schedules as $schedule){
+            $sd = $schedule->lesson->start;
+            // Mengubah waktu start menjadi objek Carbon
+            $startTime = Carbon::parse($sd);
+            // Menambahkan 10 menit pada waktu start
+            $waktu = $startTime->addMinutes(10);
+            $start = $waktu->format('H:i:s');
+            $timeNow = Carbon::now('Asia/Jakarta');
+            if ($timeNow->diffInMinutes($waktu) <= 10) {
+                $validSchedules[] = $schedule;
+            }
+        }
+        // dd($timeNow);
+    
+        return view('student.absensi_insert', [
+            'student' => Student::all(),
+            'schedule' => $validSchedules,
+            'title' => 'index'
         ]);
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -71,9 +112,15 @@ class AbsensiController extends Controller
      * @param  \App\Models\Absensi  $absensi
      * @return \Illuminate\Http\Response
      */
-    public function show(Absensi $absensi)
+    public function lesson(Absensi $absensi)
     {
-        //
+         $abs=$absensi->schedule_id;
+        // dd($abs);
+        return view('student.absensi_list',[
+            'post'=>Absensi::where('schedule_id',$abs)->get(),
+            'no'=>1,
+            'title'=>'absensi'
+        ]);
     }
 
     /**

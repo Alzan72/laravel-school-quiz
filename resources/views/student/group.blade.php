@@ -12,6 +12,7 @@
                     <td>ID</td>
                     <td>Name</td>
                     <td>Total</td>
+                    <td>Dosen</td>
                     <td>Action</td>
                 </tr>
                 </thead>
@@ -21,6 +22,13 @@
                         <td>{{ $item->id }}</td>
                         <td><a href="/group/{{ $item->id }}">{{ $item->group_name }}</a></td>
                         <td>{{ $item->students->count() }}</td>
+                        <td>
+                            @if ($item->user)
+                                {{ $item->user->name }}
+                            @else
+                                tidak ada
+                            @endif
+                        </td>
                         <td>
                         <a href="group/edit/{{ $item->id }}" class="btn btn-primary">Edit<a> 
                         <a href="group/delete/{{ $item->id }}" class="btn btn-danger">Delete<a>
