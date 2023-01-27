@@ -36,31 +36,58 @@ class AbsensiController extends Controller
 
     public function create()
     {
-        $ti = Carbon::now('Asia/Jakarta');
-        $time = $ti->format('H:i:s');
+        $timeNow = Carbon::now(new DateTimeZone('Asia/Jakarta'));
+        $time = $timeNow->format('H:i:s');
     
         $schedules = Schedule::with('lesson')->get();
         $validSchedules = [];
         foreach($schedules as $schedule){
             $sd = $schedule->lesson->start;
             // Mengubah waktu start menjadi objek Carbon
-            $startTime = Carbon::createFromFormat('H:i:s', $sd);
+            $startTime = Carbon::parse($sd);
             // Menambahkan 10 menit pada waktu start
-            $startTime->addMinutes(10);
-            $start=$startTime->format('H:i:s');
-            if ($time >= $sd && $time <= $start) {
+            $waktu = $startTime->addMinutes(10);
+            $start = $waktu->format('H:i:s');
+            if ($time <= $start) {
                 $validSchedules[] = $schedule;
             }
         }
-
-        // dd($time);
+    
         return view('student.absensi_insert', [
             'student' => Student::all(),
             'schedule' => $validSchedules,
             'title' => 'index'
         ]);
     }
+
     
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+            'status'=>'required'
+        ]);
+        // dd($request->all());
+        foreach($request->status as $name=> $status){
+            $note = $request->note[$name];
+            Absensi::create([
+                'student_id'=>$name,
+                'status'=>$status,
+                'note'=>$note,
+                'schedule_id'=>$request->schedule
+            ]);
+        }
+        
+        
+       return redirect()->route('presence.index')->with('succes','Succes');
+        
+    }
 
     /**
      * Display the specified resource.
