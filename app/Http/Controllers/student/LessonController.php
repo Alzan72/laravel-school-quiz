@@ -67,7 +67,7 @@ class LessonController extends Controller
      */
     public function show(Lesson $lesson)
     {
-        //
+       
     }
 
     /**
@@ -78,7 +78,10 @@ class LessonController extends Controller
      */
     public function edit(Lesson $lesson)
     {
-        //
+        return view('student.lesson_edit',[
+            'post'=>$lesson,
+            'title'=>'index'
+        ]);
     }
 
     /**
@@ -88,10 +91,26 @@ class LessonController extends Controller
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(Request $request,  $lesson)
     {
-        //
+        // dd($request->all());
+        $this->validate($request,[
+            'name'=>'required',
+            'start_at'=>'required',
+            'end_at'=>'required'
+        ]);
+    
+        $lesson = Lesson::findOrFail($lesson);
+        $lesson->update([
+            'name'=>$request->name,
+            'start'=>$request->start_at,
+            'end'=>$request->end_at
+        ]);
+    
+        return redirect()->route('lesson.index')->with('success','Succes update your data');
     }
+    
+
 
     /**
      * Remove the specified resource from storage.
@@ -99,8 +118,13 @@ class LessonController extends Controller
      * @param  \App\Models\Lesson  $lesson
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $lesson)
+    public function delete(Request $lesson, Lesson $data)
     {
-        //
+       
+        foreach ($lesson->remove as  $value) {
+            $data->find($value)->delete();
+        }
+        return redirect()->route('lesson.index')->with('succes','Succes delete the lesson');
+
     }
 }

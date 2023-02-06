@@ -4,6 +4,7 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Models\groupstudent;
+use App\Models\Latihan\Absensi;
 use App\Models\Latihan\Lesson;
 use App\Models\Latihan\Schedule as LatihanSchedule;
 use App\Models\User;
@@ -13,27 +14,19 @@ class schedule extends Controller
 {
     public function index()
     {
-    //     $a=LatihanSchedule::all();
-    //     foreach($a as $b){
-    //     dd($b->lesson);
-    // }
+    
             return view('student.schedule',[
             'post'=>LatihanSchedule::all(),
             'title'=>'schedule'
         ]);
-    // jika relation hasMany
-    // $schedules = LatihanSchedule::all();
-    // foreach ($schedules as $schedule) {
-    // foreach($schedule->group as $sch){
-    //     dd($sch->group_name);
-    // } 
+     
     }
 
     public function add()
     {
         return view('student.schedule_add',[
             'lesson'=>Lesson::all(),
-            'user'=>User::all(),
+            // 'user'=>User::all(),
             'group'=>groupstudent::all()
         ]);
     }
@@ -86,8 +79,14 @@ class schedule extends Controller
 
     public function delete(LatihanSchedule $del)
     {
+        // hapus absensi yang menggunakan schedule
+        foreach($del->absensis as $delete){
+        $del=$delete->schedule_id;
+        $de=Absensi::where('schedule_id',$del)->get();
+        $de->delete();
+        }
+        // hapus schedule
         $del->delete();
-
         return redirect('/schedule')->with('succes','Succes delete your data');
     }
     

@@ -10,7 +10,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <td>Lesson</td>
+                        <td>Schedule</td>
                         <td>Start At</td>
                         <td>End At</td>
                     </tr>

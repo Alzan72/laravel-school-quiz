@@ -23,11 +23,11 @@
                 </div>
                 <div class="row">
                     <label for="">Start At</label> <br>
-                    <input type="datetime-local" name="start_at" class="form-control">
+                    <input type="time" name="start_at" class="form-control">
                 </div>
                 <div class="row">
                     <label for="">End At</label> <br>
-                    <input type="datetime-local" name="end_at" class="form-control">
+                    <input type="time" name="end_at" class="form-control">
                 </div>
                 
                 <button class="btn btn-primary">Submit</button>

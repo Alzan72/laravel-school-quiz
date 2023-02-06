@@ -49,8 +49,8 @@
                         Tidak ada
                         @endif
                        </td>
-                        <td><a href="/schedule/edit/{{ $item->id }}" class="btn btn-success">Edit</a>
-                        <a href="/schedule/delete/{{ $item->id }}" class="btn btn-danger">Delete</a>
+                        <td><a href="/presence/edit/{{ $item->id }}" class="btn btn-success">Edit</a>
+                        <a href="{{ route('presence.destroy',[$item->id]) }}" class="btn btn-danger">Delete</a>
                     </td>
                     <td>{{ $item->created_at }}</td>
                     </tr>

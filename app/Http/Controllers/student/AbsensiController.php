@@ -24,8 +24,9 @@ class AbsensiController extends Controller
        return view('student.absensi',[
         'post'=>$data->unique('schedule_id')->values(),
         // 'schedule'=>$data->schedule->lesson->unique('name'),
-        'title'=>'presence'
+        'title'=>'presence' 
        ]);
+       
     }
 
     /**
@@ -38,7 +39,7 @@ class AbsensiController extends Controller
     {
         $timeNow = Carbon::now(new DateTimeZone('Asia/Jakarta'));
         $time = $timeNow->format('H:i:s');
-    
+        // dd($time);
         $schedules = Schedule::with('lesson')->get();
         $validSchedules = [];
         foreach($schedules as $schedule){
@@ -48,7 +49,7 @@ class AbsensiController extends Controller
             // Menambahkan 10 menit pada waktu start
             $waktu = $startTime->addMinutes(10);
             $start = $waktu->format('H:i:s');
-            if ($time <= $start) {
+            if ($time >=$sd && $time <= $start) {
                 $validSchedules[] = $schedule;
             }
         }
@@ -112,9 +113,14 @@ class AbsensiController extends Controller
      * @param  \App\Models\Absensi  $absensi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Absensi $absensi)
-    {
-        //
+    public function Edit(Absensi $absensi)
+    {   
+    //     foreach($absensi->students as $abs){
+    //    } dd($abs->id);
+        return view('student.absensi_edit',[
+            'post'=> $absensi,
+            'schedule'=>Schedule::all()
+        ]);
     }
 
     /**
@@ -126,7 +132,7 @@ class AbsensiController extends Controller
      */
     public function update(Request $request, Absensi $absensi)
     {
-        //
+        
     }
 
     /**
@@ -137,6 +143,6 @@ class AbsensiController extends Controller
      */
     public function destroy(Absensi $absensi)
     {
-        //
+        $absensi->delete();
     }
 }

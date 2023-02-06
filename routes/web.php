@@ -14,6 +14,7 @@ use App\Http\Controllers\latihan\PostController;
 use App\Http\Controllers\student\GroupController;
 use App\Http\Controllers\student\LessonController;
 use App\Http\Controllers\student\AbsensiController;
+use App\Http\Controllers\CrudGen\tes\PostsController;
 
 
 /*
@@ -79,9 +80,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/schedule/update','update');
   });
 
-Route::resource('presence',AbsensiController::class);
+Route::resource('presence',AbsensiController::class)->except(['show','edit']);
 Route::get('/presence/lesson/{absensi:schedule_id}',[AbsensiController::class,'lesson']);
+Route::get('/presence/edit/{absensi}',[AbsensiController::class,'Edit']);
 Route::resource('lesson',LessonController::class)->except(['destroy']);
+Route::post('/lesson/delete',[LessonController::class,'delete']);
 
 //  article
 Route::controller(article::class)->group( function(){
@@ -116,3 +119,5 @@ Route::get('/category/{category:slug}', function(kategori $category){
         'title'=>$category->name
     ]); 
 });
+
+Route::resource('tesCrudGen/posts', PostsController::class);

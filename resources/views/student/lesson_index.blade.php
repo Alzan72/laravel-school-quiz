@@ -31,7 +31,7 @@
                     </thead>
 
                     <tbody>
-                        <form action="" method="post">
+                        <form action="/lesson/delete" method="post">
                     @foreach ($post as $item )
                         <tr>
                             
@@ -41,7 +41,7 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->start }}</td>
                             <td>{{ $item->end }}</td>
-                            <td><a href="edit/{{ $item->id }}" class="btn btn-success">Edit</a>
+                            <td><a href="{{ route('lesson.edit',[$item->id]) }}" class="btn btn-success">Edit</a>
                             {{-- <a href="/student/remove/{{ $item->id }}" class="btn btn-danger">Remove</a> --}}
                             </td>
                             

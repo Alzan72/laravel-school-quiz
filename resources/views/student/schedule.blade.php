@@ -22,7 +22,7 @@
                     <td>ID</td>
                     <td>Group</td>
                     <td>User</td>
-                    <td>Schedule</td>
+                    <td>Lesson</td>
                     <td>Star</td>
                     <td>End</td>
                     <td>action</td>
@@ -37,35 +37,35 @@
                          @if ($item->group)
                             {{ $item->group->group_name }}
                         @else
-                            tidak ada
+                            Tidak ada
                         @endif
                     </td>
                         <td>
                             @if ($item->user)
                                 {{ $item->user->name }}
                             @else
-                                tidak ada
+                                Tidak ada
                             @endif
                         </td>
                         <td>
                             @if ($item->lesson)
                                 {{ $item->lesson->name }}
                             @else
-                                tidak ada
+                                Tidak ada
                             @endif
                         </td>
                         <td>
                             @if ($item->lesson)
                                 {{ $item->lesson->start }}
                             @else
-                                tidak ada
+                                Tidak ada
                             @endif
                         </td>
                         <td>
                             @if ($item->lesson)
                                 {{ $item->lesson->end }}
                             @else
-                                tidak ada
+                                Tidak ada
                             @endif
                         </td>
                         <td><a href="/schedule/edit/{{ $item->id }}" class="btn btn-success">Edit</a></td>
