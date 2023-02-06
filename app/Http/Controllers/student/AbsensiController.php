@@ -10,6 +10,7 @@ use App\Models\Latihan\Absensi;
 use App\Models\Latihan\Student;
 use App\Models\Latihan\Schedule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
@@ -40,7 +41,7 @@ class AbsensiController extends Controller
         $timeNow = Carbon::now(new DateTimeZone('Asia/Jakarta'));
         $time = $timeNow->format('H:i:s');
         // dd($time);
-        $schedules = Schedule::with('lesson')->get();
+        $schedules = Schedule::with('lesson')->where('user_id',Auth::user()->id)->get();
         $validSchedules = [];
         foreach($schedules as $schedule){
             $sd = $schedule->lesson->start;

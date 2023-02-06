@@ -19,16 +19,16 @@ class Schedule extends Model
 
     public function user()
     {
-            return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function lesson()
     {
-            return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class);
     }
 
     public function absensis()
     {
-         return $this->hasMany(Absensi::class);
+        return $this->hasMany(Absensi::class);
     }
 }

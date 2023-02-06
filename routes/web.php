@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/remove/','delete');
     Route::get('/student/add','add');
     });
-
+    
     Route::get('/user', [User::class,'index']);
     Route::get('/user/edit/{edit}', [User::class,'edit']);
     Route::get('/user/add',function(){

@@ -9,14 +9,15 @@ use App\Models\Latihan\Lesson;
 use App\Models\Latihan\Schedule as LatihanSchedule;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class schedule extends Controller
 {
     public function index()
     {
-    
+        $data=LatihanSchedule::where('user_id',Auth::user()->id)->get();
             return view('student.schedule',[
-            'post'=>LatihanSchedule::all(),
+            'post'=>$data,
             'title'=>'schedule'
         ]);
      
@@ -80,9 +81,11 @@ class schedule extends Controller
     public function delete(LatihanSchedule $del)
     {
         // hapus absensi yang menggunakan schedule
+        // dd($del);
         foreach($del->absensis as $delete){
-        $del=$delete->schedule_id;
-        $de=Absensi::where('schedule_id',$del)->get();
+        $rem=$delete->schedule_id;
+        // dd($rem);
+        $de = Absensi::where('schedule_id', $rem);
         $de->delete();
         }
         // hapus schedule
