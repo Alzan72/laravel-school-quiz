@@ -44,7 +44,7 @@
                 <tbody>
                     @foreach ($post->students as $item)
                     <tr>
-               
+                        
                         
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->number }}</td>

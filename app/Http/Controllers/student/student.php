@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\student;
 
-use App\Models\Latihan\Student as ModelStudent;
+use App\Models\groupstudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\groupstudent;
+use App\Models\Latihan\Student as ModelStudent;
+
 
 class student extends Controller
 {

@@ -73,7 +73,8 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'status'=>'required'
+            'status'=>'required',
+            'schedule_id'=>'required'
         ]);
         // dd($request->all());
         foreach($request->status as $name=> $status){
@@ -85,8 +86,6 @@ class AbsensiController extends Controller
                 'schedule_id'=>$request->schedule
             ]);
         }
-        
-        
        return redirect()->route('presence.index')->with('succes','Succes');
         
     }

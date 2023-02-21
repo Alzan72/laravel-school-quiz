@@ -48,7 +48,7 @@ class GroupController extends Controller
             'group_name'=>$insert->group
         ]);
 
-        return redirect('/group')->route('')->with('success','Succes add the group');
+        return redirect('/group')->with('success','Succes add the group');
 
     }
 
