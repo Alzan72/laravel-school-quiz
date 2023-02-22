@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/group/update','update');
     Route::post('/group/add_member','add_member');
     Route::get('/group/{id}','group');
+    Route::get('/group/quiz/{group}','quiz');
     });
     // Route::get('/group/tambah',[GroupController::class,'index']);
     
@@ -83,10 +84,11 @@ Route::middleware('auth')->group(function () {
 Route::resource('presence',AbsensiController::class)->except(['show','edit']);
 Route::get('/presence/lesson/{absensi:schedule_id}',[AbsensiController::class,'lesson']);
 Route::get('/presence/edit/{absensi}',[AbsensiController::class,'Edit']);
+Route::resource('quiz/quiz', 'App\Http\Controllers\student\QuizController');
+Route::get('quiz/test/{group}', ['App\Http\Controllers\student\QuizController','quizstart']);
 
 Route::resource('lesson',LessonController::class)->except(['destroy']);
 Route::post('/lesson/delete',[LessonController::class,'delete']);
-Route::resource('quiz/quiz', 'App\Http\Controllers\student\QuizController');
 
 //  article
 Route::controller(article::class)->group( function(){
@@ -123,3 +125,4 @@ Route::get('/category/{category:slug}', function(kategori $category){
 });
 
 Route::resource('tesCrudGen/posts', PostsController::class);
+

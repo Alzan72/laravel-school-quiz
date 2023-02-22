@@ -4,9 +4,10 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-
+use App\Models\groupstudent;
 use App\Models\Latihan\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -33,7 +34,7 @@ class QuizController extends Controller
             $quiz = Quiz::latest()->paginate($perPage);
         }
 
-        return view('quiz.quiz.index', compact('quiz'));
+        return view('quiz.index', compact('quiz'));
     }
 
     /**
@@ -42,8 +43,9 @@ class QuizController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
-        return view('quiz.quiz.create');
+    {   $group=groupstudent::where('user_id',Auth::user()->id)->value('id');
+        // dd($group);
+        return view('quiz.create',compact('group'));
     }
 
     /**
@@ -60,7 +62,7 @@ class QuizController extends Controller
         
         Quiz::create($requestData);
 
-        return redirect('quiz/quiz')->with('flash_message', 'Quiz added!');
+        return redirect("/group/quiz/$request->group_id")->with('flash_message', 'Quiz added!');
     }
 
     /**
@@ -74,7 +76,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
 
-        return view('quiz.quiz.show', compact('quiz'));
+        return view('quiz.show', compact('quiz'));
     }
 
     /**
@@ -88,7 +90,7 @@ class QuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
 
-        return view('quiz.quiz.edit', compact('quiz'));
+        return view('quiz.edit', compact('quiz'));
     }
 
     /**
@@ -107,7 +109,7 @@ class QuizController extends Controller
         $quiz = Quiz::findOrFail($id);
         $quiz->update($requestData);
 
-        return redirect('quiz/quiz')->with('flash_message', 'Quiz updated!');
+        return redirect("/group/quiz/$request->group_id")->with('flash_message', 'Quiz updated!');
     }
 
     /**
@@ -122,5 +124,13 @@ class QuizController extends Controller
         Quiz::destroy($id);
 
         return redirect('quiz/quiz')->with('flash_message', 'Quiz deleted!');
+    }
+
+    public function quizstart($group)
+    {
+        $quiziz=Quiz::where('group_id',$group)->get();
+        $grouped=groupstudent::where('id',$group)->first();
+        // dd($grouped->group_name);
+        return view('quiz.quiz', compact(['grouped','quiziz']));
     }
 }

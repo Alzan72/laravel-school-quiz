@@ -4,17 +4,18 @@ namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
 use App\Models\groupstudent;
+use App\Models\Latihan\Quiz;
 use App\Models\Latihan\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
     public function index()
     {
-        
         return view('student.group',[
-            'post'=>groupstudent::all(),
+            'post'=>groupstudent::where('user_id',Auth::user()->id)->get(),
             'title'=>'group'
         ]);
     }
@@ -91,5 +92,13 @@ class GroupController extends Controller
     {
         $delete->delete();
         return redirect('/group')->with('success','Succes delete the group');
+    }
+
+    public function quiz($group)
+    {
+        $quiz=Quiz::where('group_id',$group)->get();
+        // dd($quiz);
+        return view('quiz.groupquiz', compact(['quiz','group']));
+
     }
 }

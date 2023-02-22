@@ -1,10 +1,9 @@
 @extends('student.layout-copy')
 
+
 @section('content')
     <div class="container">
         <div class="row">
-      
-
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Quiz</div>
@@ -23,6 +22,7 @@
                                 </span>
                             </div>
                         </form>
+                        <a href="/quiz/test/{{ $group }}" class="btn btn-danger btn-sm">Start Tes</a>
 
                         <br/>
                         <br/>
@@ -37,7 +37,7 @@
                                 @foreach($quiz as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->group_id }}</td><td>{{ $item->number }}</td><td>{{ $item->question }}</td>
+                                        <td>{{ $item->group->group_name }}</td><td>{{ $item->number }}</td><td>{{ $item->question }}</td>
                                         <td>
                                             <a href="{{ url('/quiz/quiz/' . $item->id) }}" title="View Quiz"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ url('/quiz/quiz/' . $item->id . '/edit') }}" title="Edit Quiz"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
@@ -52,8 +52,8 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $quiz->appends(['search' => Request::get('search')])->render() !!} </div>
-                        </div>
+                            {{-- <div class="pagination-wrapper"> {!! $quiz->appends(['search' => Request::get('search')])->render() !!} </div>
+                        </div> --}}
 
                     </div>
                 </div>

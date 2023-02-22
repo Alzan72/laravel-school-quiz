@@ -30,6 +30,7 @@
                             @endif
                         </td>
                         <td>
+                        <a href="/group/quiz/{{ $item->id }}" class="btn btn-primary">Quiz<a> 
                         <a href="group/edit/{{ $item->id }}" class="btn btn-primary">Edit<a> 
                         <a href="group/delete/{{ $item->id }}" class="btn btn-danger">Delete<a>
                         </td>

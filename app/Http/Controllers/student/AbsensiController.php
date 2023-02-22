@@ -72,9 +72,10 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
+       
         $this->validate($request,[
             'status'=>'required',
-            'schedule_id'=>'required'
+            'schedule'=>'required'
         ]);
         // dd($request->all());
         foreach($request->status as $name=> $status){
