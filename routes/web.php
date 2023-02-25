@@ -85,7 +85,9 @@ Route::resource('presence',AbsensiController::class)->except(['show','edit']);
 Route::get('/presence/lesson/{absensi:schedule_id}',[AbsensiController::class,'lesson']);
 Route::get('/presence/edit/{absensi}',[AbsensiController::class,'Edit']);
 Route::resource('quiz/quiz', 'App\Http\Controllers\student\QuizController');
-Route::get('quiz/test/{group}', ['App\Http\Controllers\student\QuizController','quizstart']);
+Route::get('/quiz/test/{group}', ['App\Http\Controllers\student\QuizController','quiztest']);
+Route::get('/quiz/{group}/start/{id}', ['App\Http\Controllers\student\QuizController','quizstart']);
+Route::post('/quiz/reply',['App\Http\Controllers\student\QuizController','reply']);
 
 Route::resource('lesson',LessonController::class)->except(['destroy']);
 Route::post('/lesson/delete',[LessonController::class,'delete']);

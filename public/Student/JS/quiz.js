@@ -6,3 +6,4 @@ $('.answer').on('keyup',function () {
     radio.val(value)
 })
 })
+

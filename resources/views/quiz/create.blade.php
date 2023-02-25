@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">Create New Quiz</div>
                     <div class="card-body">
-                        <a href="{{ url()->previous() }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="/group/quiz/{{ $group->id }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
                         @if ($errors->any())
@@ -19,8 +19,8 @@
                         <form method="POST" action="{{ url('/quiz/quiz') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group {{ $errors->has('group_id') ? 'has-error' : ''}}">
-                                <label for="group_id" class="control-label">{{ 'Group Id' }}</label>
-                                <input class="form-control" name="group_id" type="number" id="group_id" value="{{ $group }}" readonly>
+                                <label for="group_id" class="control-label">{{ 'Group' }}</label> <span>: {{ $group->group_name }}</span>
+                                <input class="form-control" name="group_id" type="hidden" id="group_id" value="{{ $group->id }}" readonly>
                                 {!! $errors->first('group_id', '<p class="help-block">:message</p>') !!}
                             </div>
                             <div class="form-group {{ $errors->has('number') ? 'has-error' : ''}}">

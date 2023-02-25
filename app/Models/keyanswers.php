@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class answer extends Model
+class keyanswers extends Model
 {
     use HasFactory;
+    protected $guarded=['id'];
 }

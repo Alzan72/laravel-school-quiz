@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\student;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\keyanswers;
 use App\Models\groupstudent;
 use App\Models\Latihan\Quiz;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Reply;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
@@ -43,8 +45,8 @@ class QuizController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {   $group=groupstudent::where('user_id',Auth::user()->id)->value('id');
-        // dd($group);
+    {   $group=groupstudent::where('user_id',Auth::user()->id)->first();
+        // dd($group->group_name);
         return view('quiz.create',compact('group'));
     }
 
@@ -57,11 +59,14 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
         $requestData = $request->all();
-        
-        Quiz::create($requestData);
-
+        $quiz=Quiz::create($requestData);
+        // dd($quiz->id);
+        keyanswers::create([
+            'quizzes_id'=>$quiz->id,
+            'answer'=>$request->answer
+        ]);
         return redirect("/group/quiz/$request->group_id")->with('flash_message', 'Quiz added!');
     }
 
@@ -75,8 +80,9 @@ class QuizController extends Controller
     public function show($id)
     {
         $quiz = Quiz::findOrFail($id);
-
-        return view('quiz.show', compact('quiz'));
+        $answer=keyanswers::where('quizzes_id',$id)->first()->answer;
+        // dd($answer);
+        return view('quiz.show', compact(['quiz','answer']));
     }
 
     /**
@@ -89,8 +95,8 @@ class QuizController extends Controller
     public function edit($id)
     {
         $quiz = Quiz::findOrFail($id);
-
-        return view('quiz.edit', compact('quiz'));
+        $answer=keyanswers::where('quizzes_id',$id)->first()->answer;
+        return view('quiz.edit', compact(['quiz','answer']));
     }
 
     /**
@@ -103,11 +109,13 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        // dd($request->answer);
         $requestData = $request->all();
-        
         $quiz = Quiz::findOrFail($id);
         $quiz->update($requestData);
+        keyanswers::where('quizzes_id',$id)->update([
+            'answer'=>$request->answer
+        ]);
 
         return redirect("/group/quiz/$request->group_id")->with('flash_message', 'Quiz updated!');
     }
@@ -126,11 +134,47 @@ class QuizController extends Controller
         return redirect('quiz/quiz')->with('flash_message', 'Quiz deleted!');
     }
 
-    public function quizstart($group)
+    public function quiztest($group)
     {
         $quiziz=Quiz::where('group_id',$group)->get();
         $grouped=groupstudent::where('id',$group)->first();
         // dd($grouped->group_name);
         return view('quiz.quiz', compact(['grouped','quiziz']));
+    }
+    public function quizstart($group,$id)
+    {  
+        $group=groupstudent::where('user_id',Auth::user()->id)->first();
+        // dd($group->id);
+        $quiz=Quiz::where('group_id',$group->id)->get();
+        $total=count($quiz);
+        $reply=Reply::where('user_id',Auth::user()->id)->where('quizzes_id',$quiz[$id]->id)->first();
+        if($reply){
+            $reply=$reply->reply;
+        }
+        // dd($quiz[0]);/
+        // $quiz = Quiz::findOrFail($id);
+        return view('quiz.quiztest', compact(['quiz','id','total','reply','group']));
+    }
+
+    public function reply(Request $request)
+    {
+        // dd($request);
+        if($request->click==1){
+        $quiz_id=$request->quest;
+        $replied=Reply::where('user_id',$request->user)->where('quizzes_id',$quiz_id)->first();
+        if($replied){
+            Reply::where('id',$replied->id)->update([
+                'reply'=>$request->answer
+            ]);
+        }
+        else{
+        Reply::create([
+            'user_id'=>$request->user,
+            'quizzes_id'=>$quiz_id,
+            'reply'=>$request->answer
+        ]);
+        }
+        }
+        return redirect($request->move);
     }
 }
