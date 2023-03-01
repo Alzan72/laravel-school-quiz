@@ -26,7 +26,8 @@
                 </div>
                 <div class="row">
                     <label for="">Name</label> <br>
-                    <input type="text" name="name"value="{{ $id->name }}" class="form-control">
+                    <input type="text" name=""value="{{ $id->user->name }}" class="form-control" readonly>
+                    <input type="hidden" name="name"value="{{ $id->user_id }}" class="form-control" readonly>
                 </div>
                 <div class="row">
                     <label for="">Phone</label> <br>

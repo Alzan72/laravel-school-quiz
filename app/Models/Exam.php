@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Models\Latihan;
+namespace App\Models;
 
-use App\Models\groupstudent;
-use App\Models\Topic;
 use Illuminate\Database\Eloquent\Model;
 
-class Quiz extends Model
+class Exam extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'quizzes';
+    protected $table = 'exams';
 
     /**
     * The database primary key value.
@@ -27,18 +25,16 @@ class Quiz extends Model
      *
      * @var array
      */
-    protected $fillable = ['group_id', 'number', 'question', 'answer1', 'answer2', 'answer3', 'answer4','topic_id'];
-
-
-    public function group()
-    {
-        return $this->belongsTo(groupstudent::class);
-    }
+    protected $fillable = ['name', 'dekskripsi', 'topic_id', 'start', 'end', 'group_id', 'time', 'point', 'token', 'status'];
 
     public function topic()
     {
         return $this->belongsTo(Topic::class);
     }
 
+    public function group()
+    {
+        return $this->belongsTo(groupstudent::class);
+    }
     
 }

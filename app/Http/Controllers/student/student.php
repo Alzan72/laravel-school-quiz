@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\student;
 
+use App\Models\User;
 use App\Models\groupstudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +12,7 @@ use App\Models\Latihan\Student as ModelStudent;
 class student extends Controller
 {
     public function index()
-    {
+    {  
         return view('student.index',[
            'post'=> ModelStudent::all()
         ]);
@@ -19,13 +20,19 @@ class student extends Controller
 
     public function add()
     {
-        return view('student/insert',['group'=>groupstudent::all()]);
+        $user=User::where('role','student')->get();
+        // dd($user);
+        return view('student.insert',[
+            'group'=>groupstudent::all(),
+            'user'=>$user
+        ]);
     }
 
     public function create(Request $insert)
     {
+        // dd($insert);
         $this->validate($insert,[
-            'name'=>'required|min:5',
+            'name'=>'required',
             'email'=>'required|min:8',
             'number'=>'required|min:7|max:10',
             'phone'=>'required|min:10|max:12',
@@ -39,7 +46,7 @@ class student extends Controller
         $image->move($direktori,$file);
     
         ModelStudent::create([
-            'name'     => $insert->name,
+            'user_id'     => $insert->name,
             'email'    => $insert->email,
             'number'   =>$insert->number,
             'phone'    =>$insert->phone,
@@ -81,7 +88,7 @@ class student extends Controller
         @unlink('Student/img/'.$update->old_photo);
 
         $data->where('id',$update->id)->update([
-            'name'=> $update->name,
+            'user_id'=> $update->name,
             'number'=>$update->number,
             'phone'=>$update->phone,
             'email'=>$update->email,

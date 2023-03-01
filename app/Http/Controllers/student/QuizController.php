@@ -9,6 +9,7 @@ use App\Models\Latihan\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Reply;
+use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
@@ -46,8 +47,9 @@ class QuizController extends Controller
      */
     public function create()
     {   $group=groupstudent::where('user_id',Auth::user()->id)->first();
+        $topic=Topic::all();
         // dd($group->group_name);
-        return view('quiz.create',compact('group'));
+        return view('quiz.create',compact(['group','topic']));
     }
 
     /**
@@ -142,18 +144,19 @@ class QuizController extends Controller
         return view('quiz.quiz', compact(['grouped','quiziz']));
     }
     public function quizstart($group,$id)
-    {  
+    {  $reply='';
         $group=groupstudent::where('user_id',Auth::user()->id)->first();
         // dd($group->id);
         $quiz=Quiz::where('group_id',$group->id)->get();
         $total=count($quiz);
-        $reply=Reply::where('user_id',Auth::user()->id)->where('quizzes_id',$quiz[$id]->id)->first();
-        if($reply){
-            $reply=$reply->reply;
+        $replied=Reply::where('user_id',Auth::user()->id);
+        // dd($replied->where('quizzes_id',$quiz[$id]->id)->first());
+        if($rep=$replied->where('quizzes_id',$quiz[$id]->id)->first()){
+            $reply=$rep->reply;
         }
         // dd($quiz[0]);/
         // $quiz = Quiz::findOrFail($id);
-        return view('quiz.quiztest', compact(['quiz','id','total','reply','group']));
+        return view('quiz.quiztest', compact(['quiz','id','total','reply','group','replied']));
     }
 
     public function reply(Request $request)

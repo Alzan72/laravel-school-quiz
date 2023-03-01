@@ -1,0 +1,5 @@
+php artisan crud:generate Topic --fields='topic#string;' --view-path=topic --controller-namespace=App\\Http\Controllers\topic --route-group=topic --form-helper=html
+
+
+php artisan crud:generate Exam --fields='name#string;dekskripsi#text;topic_id#number;start#time;end#time;group_id#integer;time#number;point#number;token#string;status#select#options={"aktif":"aktif","tidak aktif":"tidak aktif"}' --view-path=exam --controller-namespace=App\Http\Controllers\exam --route-group=exam --form-helper=html
+

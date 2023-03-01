@@ -42,7 +42,7 @@
                             <td><input type="checkbox" value="{{ $item->id }},{{ $item->photo }}" name="remove[]" id=""></td>    
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->number }}</td>
-                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->user->name }}</td>
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->email }}</td>
                             <td>

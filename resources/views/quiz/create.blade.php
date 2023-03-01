@@ -23,6 +23,12 @@
                                 <input class="form-control" name="group_id" type="hidden" id="group_id" value="{{ $group->id }}" readonly>
                                 {!! $errors->first('group_id', '<p class="help-block">:message</p>') !!}
                             </div>
+                            <select name="topic_id" class="form-select" id="">
+                                <option value="">Pilih Topik</option>
+                                @foreach ($topic as $t )
+                                    <option value="{{ $t->id }}">{{ $t->topic }}</option>
+                                @endforeach
+                            </select>
                             <div class="form-group {{ $errors->has('number') ? 'has-error' : ''}}">
                                 <label for="number" class="control-label">{{ 'Number' }}</label>
                                 <input class="form-control" name="number" type="number" id="number" value="{{ isset($quiz->number) ? $quiz->number : ''}}" >

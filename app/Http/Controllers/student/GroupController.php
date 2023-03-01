@@ -22,7 +22,6 @@ class GroupController extends Controller
     public function group(groupstudent $id)
     {  
         return view('student.group_list',[
-            
             'post'=>$id,
             'student'=> Student::all(),
             'title'=>'group-list'

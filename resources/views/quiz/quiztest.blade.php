@@ -30,8 +30,15 @@
                 <div class="card-header">Nomor Soal</div>
                 <div class="card-body">
                     @for ($i=1;$i <=$total;$i++)
+                    @php
+                     $isAnswered = false;
+               $repli = $replied->where('quizzes_id', $quiz[$i - 1]->id)->first();
+              if  ($repli) {
+                  $isAnswered = true;
+                     }
+                    @endphp
                      <button class="move btn btn-sm 
-                     @if ($reply && $id==$i-1)
+                     @if ($reply && $id==$i-1  )
                      btn-danger
                        @elseif ($id==$i-1)
                        btn-success

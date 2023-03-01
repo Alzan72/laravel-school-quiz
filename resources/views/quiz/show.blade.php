@@ -4,8 +4,6 @@
 @section('content')
     <div class="container">
         <div class="row">
-    
-
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Quiz {{ $quiz->id }}</div>
@@ -28,7 +26,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $quiz->id }}</td>
                                     </tr>
-                                    <tr><th> Group Id </th><td> {{ $quiz->group_id }} </td></tr><tr><th> Number </th><td> {{ $quiz->number }} </td></tr><tr><th> Question </th><td> {{ $quiz->question }} </td></tr>
+                                    <tr><th> Group Id </th><td> {{ $quiz->group_id }} </td></tr><tr><th> Number </th><td> {{ $quiz->number }} </td></tr><tr><th> Question </th><td> {{ $quiz->question }} </td></tr><tr><th> Topic </th><td> {{ $quiz->topic->topic }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

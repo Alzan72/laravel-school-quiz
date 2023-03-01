@@ -23,7 +23,12 @@
                 </div>
                 <div class="row">
                     <label for="">Name</label> <br>
-                    <input type="text" name="name" class="form-control">
+                   <select name="name" id="" class="form-select">
+                    <option value="">Pilih User</option>
+                    @foreach ($user as $u )
+                        <option value="{{ $u->id }}">{{ $u->name }}</option>
+                    @endforeach
+                   </select>
                 </div>
                 <div class="row">
                     <label for="">Phone</label> <br>

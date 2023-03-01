@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Latihan\Schedule;
+use App\Models\Latihan\Student;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,5 +54,10 @@ class User extends Authenticatable
     public function schedule()
     {
         return $this->hasMany(Schedule::class);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
     }
 }
