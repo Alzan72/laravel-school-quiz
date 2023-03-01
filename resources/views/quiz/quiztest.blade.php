@@ -14,7 +14,7 @@
 <body>
     <div class="container-fluid">
         <div class="row py-4 bg-primary text-white">
-            <div class="col border-2 fs-4">Group: {{ $group->group_name }}</div>
+            <div class="col border-2 fs-4">Group: {{ $group }}</div>
             <div class="col text-end">
                 <a class="btn btn-danger" href="{{ route('logout') }}"onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();">{{ Auth::user()->name }} | Logout</a>
@@ -45,7 +45,7 @@
                        @else
                        btn-primary
                      @endif
-                     " value="/quiz/{{ $group->id }}/start/{{ $i-1 }}"> {{ $i }}</button>
+                     " value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $i-1 }}"> {{ $i }}</button>
                     @endfor
                 </div>
             </div>
@@ -66,10 +66,10 @@
                         <input type="hidden" id="click" name="click">
                     </div>
                     @if ($id!=0)
-                    <button name="move" class="btn btn-primary btn-sm" value="/quiz/{{ $group->id }}/start/{{ $id-1 }}">< Sebelumnya</button>
+                    <button name="move" class="btn btn-primary btn-sm" value="/quiz/{{ $group->id }}/{{ $topic }}/start/{{ $id-1 }}">< Sebelumnya</button>
                 @endif
                 @if ($id < $total-1 )
-                <button name="move" class="btn btn-primary btn-sm text-end" value="/quiz/{{ $group->id }}/start/{{ $id+1 }}">Selanjutnya ></button>
+                <button name="move" class="btn btn-primary btn-sm text-end" value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $id+1 }}">Selanjutnya ></button>
                 @endif
                 @if ($id == $total-1)
                 <a href="/group" class="btn btn-warning btn-sm" id="finish">Selesai</a>

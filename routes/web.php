@@ -109,8 +109,8 @@ Route::middleware('student')->group(function(){
     Route::get('/student/exam',[student_quiz::class,'exam']);
     Route::get('/exam/{id}/prepare',[student_quiz::class,'prepare']);
     Route::post('/token/check',[student_quiz::class,'token']);
-    Route::get('/quiz/{group}/start/{id}', ['App\Http\Controllers\student\QuizController','quizstart']);
-    Route::post('/quiz/reply',['App\Http\Controllers\student\QuizController','reply']);
+    Route::get('/quiz/{group}/{topic}/start/{id}', [student_quiz::class,'quizstart']);
+    Route::post('/quiz/reply',[student_quiz::class,'reply']);
 });
 
 
