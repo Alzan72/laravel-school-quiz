@@ -6,7 +6,10 @@ use App\Models\User;
 use App\Models\groupstudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use App\Models\Latihan\Student as ModelStudent;
+
 
 
 class student extends Controller
@@ -39,14 +42,21 @@ class student extends Controller
             'photo' => 'required|file|mimes:jpeg,png,jpg|max:2048',
             'group' => 'required'
         ]);
-    
+
+        $user=User::create([
+            'name'=>$insert->name,
+            'password'=>$insert->password,
+            'email'=>$insert->email,
+            'role'=>'student'
+        ]);
+        
         $image = $insert->file('photo');
         $file=rand().'-'.$image->getClientOriginalName();
         $direktori = 'Student/img';
         $image->move($direktori,$file);
     
         ModelStudent::create([
-            'user_id'     => $insert->name,
+            'user_id'     => $user->id,
             'email'    => $insert->email,
             'number'   =>$insert->number,
             'phone'    =>$insert->phone,
@@ -137,5 +147,23 @@ return redirect()->intended("$update->url")->with('success', 'Success update you
     }
 
     
+    // Add user
+
+    public function adduser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role'=>$request->role
+        ]);
+            return back();
+    }
 
 }

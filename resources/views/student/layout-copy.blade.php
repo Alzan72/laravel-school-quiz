@@ -161,6 +161,18 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/topic/topic">
+              <i class="fa-solid fa-book"></i>
+              Topic
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/exam/exam">
+              <i class="fa-solid fa-book"></i>
+              Exam
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/student/index">              
               <i class="fa-solid fa-user"></i>
               Students

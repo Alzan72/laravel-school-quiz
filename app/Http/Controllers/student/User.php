@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Auth;
 class User extends Controller
 {
     public function index()
-    {
-        $data=us::where('id',Auth::user()->id)->get();
+    {   $data=us::all();
+        if (Auth::user()->role=='teacher') {
+            $data=us::where('id',Auth::user()->id)->get();
+        }
         return view('student.user',[
             'post'=>$data,
             'title'=>'user'

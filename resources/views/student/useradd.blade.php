@@ -8,12 +8,10 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="/user/new">
                         @csrf
-
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
-
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
@@ -61,13 +59,14 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <select name="group" id="">
-                                    <option value=""></option>
-                                </select>
-                            </div>
+                        <div class="row mb-3">
+                            <select name="role" id="" class="form-select">
+                                <option value="">Pilih Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="teacher">Teacher</option>
+                            </select>
                         </div>
+
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">

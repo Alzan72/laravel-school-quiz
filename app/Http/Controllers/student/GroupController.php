@@ -14,8 +14,12 @@ class GroupController extends Controller
 {
     public function index()
     {
+        $group=groupstudent::all();
+        if(auth()->user()->role != 'admin'){
+            $group=groupstudent::where('user_id',Auth::user()->id)->get();
+        }
         return view('student.group',[
-            'post'=>groupstudent::where('user_id',Auth::user()->id)->get(),
+            'post'=>$group,
             'title'=>'group'
         ]);
     }

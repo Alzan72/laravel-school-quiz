@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('student.layout-copy')
 
 @section('content')
     <div class="container">
         <div class="row">
-            @include('admin.sidebar')
+
 
             <div class="col-md-9">
                 <div class="card">
@@ -28,6 +28,7 @@
                                         <th>ID</th><td>{{ $topic->id }}</td>
                                     </tr>
                                     <tr><th> Topic </th><td> {{ $topic->topic }} </td></tr>
+                                    <tr><th> Status </th><td> {{ $topic->status }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

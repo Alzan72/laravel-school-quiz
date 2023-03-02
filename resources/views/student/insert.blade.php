@@ -23,12 +23,17 @@
                 </div>
                 <div class="row">
                     <label for="">Name</label> <br>
-                   <select name="name" id="" class="form-select">
+                    <input type="text" name="name" class="form-control">
+                   {{-- <select name="name" id="" class="form-select">
                     <option value="">Pilih User</option>
                     @foreach ($user as $u )
                         <option value="{{ $u->id }}">{{ $u->name }}</option>
                     @endforeach
-                   </select>
+                   </select> --}}
+                </div>
+                <div class="row">
+                    <label for="">Password</label> <br>
+                    <input type="password" name="password" class="form-control">
                 </div>
                 <div class="row">
                     <label for="">Phone</label> <br>

@@ -14,7 +14,6 @@ use App\Http\Controllers\latihan\PostController;
 use App\Http\Controllers\student\GroupController;
 use App\Http\Controllers\student\LessonController;
 use App\Http\Controllers\student\AbsensiController;
-use App\Http\Controllers\CrudGen\tes\PostsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\student\student_quiz;
 
@@ -40,7 +39,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [HomeController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('admin')->group(function () {
+Route::middleware(['auth','admin'])->group(function () {
     //Students
     Route::controller(student::class)->group( function(){
     Route::get('/student/index','index');
@@ -49,6 +48,8 @@ Route::middleware('admin')->group(function () {
     Route::post('/Update','update');
     Route::post('/student/remove/','delete');
     Route::get('/student/add','add');
+    // Add USer
+    Route::post('/user/new','adduser');
     });
     Route::get('/user', [User::class,'index']);
     Route::get('/user/edit/{edit}', [User::class,'edit']);
@@ -96,15 +97,15 @@ Route::resource('topic/topic', 'App\\Http\Controllers\topic\TopicController');
 Route::resource('exam/exam', 'App\Http\Controllers\exam\ExamController');
 Route::resource('quiz/quiz', 'App\Http\Controllers\student\QuizController');
 Route::get('/quiz/test/{group}', ['App\Http\Controllers\student\QuizController','quiztest']);
-Route::get('/quiz/{group}/start/{id}', ['App\Http\Controllers\student\QuizController','quizstart']);
-Route::post('/quiz/reply',['App\Http\Controllers\student\QuizController','reply']);
+// Route::get('/quiz/{group}/start/{id}', ['App\Http\Controllers\student\QuizController','quizstart']);
+// Route::post('/quiz/reply',['App\Http\Controllers\student\QuizController','reply']);
     // login
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('student')->group(function(){
+Route::middleware(['auth','student'])->group(function(){
     Route::get('/dashboard/student',[student_quiz::class,'index']);
     Route::get('/student/exam',[student_quiz::class,'exam']);
     Route::get('/exam/{id}/prepare',[student_quiz::class,'prepare']);

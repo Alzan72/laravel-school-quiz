@@ -66,13 +66,13 @@
                         <input type="hidden" id="click" name="click">
                     </div>
                     @if ($id!=0)
-                    <button name="move" class="btn btn-primary btn-sm" value="/quiz/{{ $group->id }}/{{ $topic }}/start/{{ $id-1 }}">< Sebelumnya</button>
+                    <button name="move" class="btn btn-primary btn-sm" value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $id-1 }}">< Sebelumnya</button>
                 @endif
                 @if ($id < $total-1 )
                 <button name="move" class="btn btn-primary btn-sm text-end" value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $id+1 }}">Selanjutnya ></button>
                 @endif
                 @if ($id == $total-1)
-                <a href="/group" class="btn btn-warning btn-sm" id="finish">Selesai</a>
+                <a href="/student/exam" class="btn btn-warning btn-sm" id="finish">Selesai</a>
                 @endif
                 </form>
                 </div>
