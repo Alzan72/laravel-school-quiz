@@ -33,10 +33,10 @@
                         <div class="card">
                             <div class="card-header">{{ $quiz->question }}</div>
                             <div class="card-body">
-                                <input type="radio" name="answer" value="{{ $quiz->answer1 }}" {{ $quiz->answer1==$answer ? 'checked':'' }}><span>{{ $quiz->answer1 }}</span><br>
-                                <input type="radio" name="answer" value="{{ $quiz->answer2 }}" {{ $quiz->answer2==$answer ? 'checked':'' }}><span>{{ $quiz->answer2 }}</span><br>
-                                <input type="radio" name="answer" value="{{ $quiz->answer3 }}" {{ $quiz->answer3==$answer ? 'checked':'' }}><span>{{ $quiz->answer3 }}</span><br>
-                                <input type="radio" name="answer" value="{{ $quiz->answer4 }}" {{ $quiz->answer4==$answer ? 'checked':'' }}><span>{{ $quiz->answer4 }}</span>
+                                <input type="radio" name="answer" value="{{ $quiz->answer1 }}" {{ $answer=='A' ? 'checked':'' }}><span>{{ $quiz->answer1 }}</span><br>
+                                <input type="radio" name="answer" value="{{ $quiz->answer2 }}" {{ $answer=='B' ? 'checked':'' }}><span>{{ $quiz->answer2 }}</span><br>
+                                <input type="radio" name="answer" value="{{ $quiz->answer3 }}" {{ $answer=='C' ? 'checked':'' }}><span>{{ $quiz->answer3 }}</span><br>
+                                <input type="radio" name="answer" value="{{ $quiz->answer4 }}" {{ $answer=='D' ? 'checked':'' }}><span>{{ $quiz->answer4 }}</span>
                             </div>
                         </div>
 

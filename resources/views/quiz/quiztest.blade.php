@@ -30,15 +30,9 @@
                 <div class="card-header">Nomor Soal</div>
                 <div class="card-body">
                     @for ($i=1;$i <=$total;$i++)
-                    @php
-                     $isAnswered = false;
-               $repli = $replied->where('quizzes_id', $quiz[$i - 1]->id)->first();
-              if  ($repli) {
-                  $isAnswered = true;
-                     }
-                    @endphp
+                    
                      <button class="move btn btn-sm 
-                     @if ($reply && $id==$i-1  )
+                     @if ($repli->reply)
                      btn-danger
                        @elseif ($id==$i-1)
                        btn-success
@@ -56,13 +50,14 @@
                         @csrf
                     <div class="card-header fs-5 ">{{ $id+1 }}. {{ $quiz[$id]->question }}</div>
                     <input type="hidden" name="move" id="move">
+                    <input type="hidden" name="exam" id="exam" value="{{ $ex }}">
                     <input type="hidden" name="quest" value="<?=$quiz[$id]->id?>">
-                    <input type="hidden" name="user" value="{{ Auth::user()->id }}">
+                    {{-- <input type="hidden" name="user" value="{{ Auth::user()->id }}"> --}}
                     <div class="card-body ">
-                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="{{ $quiz[$id]->answer1 }}" {{ $reply==$quiz[$id]->answer1 ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer1 }}</label><br>
-                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="{{ $quiz[$id]->answer2 }}" {{ $reply==$quiz[$id]->answer2 ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer2 }}</label><br>
-                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="{{ $quiz[$id]->answer3 }}" {{ $reply==$quiz[$id]->answer3 ? 'checked':'' }} ><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer3 }}</label><br>
-                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="{{ $quiz[$id]->answer4 }}" {{ $reply==$quiz[$id]->answer4 ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer4 }}</label>
+                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="A" {{ (isset($reply) && $reply=='A') ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer1 }}</label><br>
+                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="B" {{ (isset($reply) && $reply=='B') ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer2 }}</label><br>
+                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="C" {{ (isset($reply) && $reply=='C') ? 'checked':'' }} ><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer3 }}</label><br>
+                        <input class="answer form-check-input mt-3 " type="radio" name="answer" value="D" {{ (isset($reply) && $reply=='D') ? 'checked':'' }}><label class="form-check-label mt-2 fs-5">{{ $quiz[$id]->answer4 }}</label>
                         <input type="hidden" id="click" name="click">
                     </div>
                     @if ($id!=0)
@@ -72,7 +67,7 @@
                 <button name="move" class="btn btn-primary btn-sm text-end" value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $id+1 }}">Selanjutnya ></button>
                 @endif
                 @if ($id == $total-1)
-                <a href="/student/exam" class="btn btn-warning btn-sm" id="finish">Selesai</a>
+                <button value="/student/exam" name="move" class="btn btn-warning btn-sm" id="finish">Selesai</button>
                 @endif
                 </form>
                 </div>

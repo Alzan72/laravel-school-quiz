@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('topics', function (Blueprint $table) {
-            $table->string('status')->after('topic')->default('aktif');
+        Schema::table('replies', function (Blueprint $table) {
+            $table->integer('exam_id')->after('user_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('topics', function (Blueprint $table) {
+        Schema::table('replies', function (Blueprint $table) {
             //
         });
     }

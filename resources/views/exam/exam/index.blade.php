@@ -38,6 +38,7 @@
                                         <td>{{ $item->name }}</td><td>{{ $item->dekskripsi }}</td><td>{{ $item->topic_id }}</td>
                                         <td>
                                             <a href="{{ url('/exam/exam/' . $item->id) }}" title="View Exam"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            <a href="/exam/score/{{ $item->id }}" class="btn btn-primary btn-sm">Hasil</a>
                                             <a href="{{ url('/exam/exam/' . $item->id . '/edit') }}" title="Edit Exam"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                             <form method="POST" action="{{ url('/exam/exam' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">

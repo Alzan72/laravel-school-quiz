@@ -45,7 +45,7 @@ class student extends Controller
 
         $user=User::create([
             'name'=>$insert->name,
-            'password'=>$insert->password,
+            'password'=>Hash::make($insert->password),
             'email'=>$insert->email,
             'role'=>'student'
         ]);

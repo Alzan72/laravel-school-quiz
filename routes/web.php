@@ -97,6 +97,7 @@ Route::resource('topic/topic', 'App\\Http\Controllers\topic\TopicController');
 Route::resource('exam/exam', 'App\Http\Controllers\exam\ExamController');
 Route::resource('quiz/quiz', 'App\Http\Controllers\student\QuizController');
 Route::get('/quiz/test/{group}', ['App\Http\Controllers\student\QuizController','quiztest']);
+Route::get('/exam/score/{exam}','App\Http\Controllers\exam\ExamController@score');
 // Route::get('/quiz/{group}/start/{id}', ['App\Http\Controllers\student\QuizController','quizstart']);
 // Route::post('/quiz/reply',['App\Http\Controllers\student\QuizController','reply']);
     // login

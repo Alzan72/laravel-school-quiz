@@ -30,15 +30,19 @@
                             <li>Mulai: {{ $exam->start }}</li>
                             <li>Selesai: {{ $exam->end }}</li>
                             <li>Waktu: {{ $exam->time }} Menit</li>
-                            <li>Status: {{ $exam->aktif }}</li>
+                            <li>Status: {{ $exam->status     }}</li>
                         </ul>
-                        <form action="/token/check" method="POST">
+                        @if (!$replied)
+                              <form action="/token/check" method="POST">
                             @csrf
                         <label for="">Token</label><br>
                         <input type="hidden" name="id" value="{{ $exam->id }}">
                         <input type="text" name="token" class="form-control" placeholder="Masukkan token">
                         <button class="btn btn-primary btn-sm">Mulai</button>
                     </form>
+                    @else
+                        <h4 class="text-danger">Soal telah dikerjakan</h4>
+                        @endif
                     </div>
                 </div>
             </div>

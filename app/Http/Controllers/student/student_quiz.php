@@ -19,27 +19,40 @@ class student_quiz extends Controller
     }
 
     public function exam()
-    {
+    {   
         $exam=Exam::where('status','aktif')->where('group_id',Auth::user()->student->group_id)->get();
         return view('student-quiz.list_exam',compact('exam'));
     }
 
     public function prepare(Exam $id)
     {
+        // dd($id);
+        $replied=Reply::where('user_id',auth()->user()->id)->where('exam_id',$id->id)->first();
         return view('student-quiz.prepare',[
-            'exam'=>$id
+            'exam'=>$id,
+            'replied'=>$replied
         ]);
     }
     public function token(Request $request)
     {
-        $token=Exam::where('id', $request->id)->first()->token;
+        $exam_id=$request->id;
+        $token=Exam::where('id', $exam_id)->first()->token;
         if($request->token !=$token){
             return back()->with('error','Token salah!!');
         }else{
-            $topic=Exam::where('id', $request->id)->first()->topic_id;
+            $topic=Exam::where('id', $exam_id)->first()->topic_id;
             $group=Auth::user()->student->group_id;
+            $quiz=Quiz::where('group_id',$group)->where('topic_id',$topic)->get();
+         foreach( $quiz as $quest ){
+            Reply::create([
+                'user_id'=>auth()->user()->id,
+                'quizzes_id'=>$quest->id,
+                'reply'=> null,
+                'exam_id'=>$exam_id
+            ]);
+             }
             // sesion
-            session()->flash('exam_token', auth()->user()->id.'-'.$request->token);
+            session()->flash('exam_token', "$request->token-$exam_id");
             return redirect("/quiz/$group/$topic/start/0");
         }
     }
@@ -52,44 +65,33 @@ class student_quiz extends Controller
         }
         $group=Auth::user()->student->group_id;
         $quiz=Quiz::where('group_id',$group)->where('topic_id',$topic)->get();
-        foreach( $quiz as $quest ){
-            Reply::create([
-                'user_id'=>auth()->user()->id,
-                'quizzes_id'=>$quest->id,
-                'reply'=> null
-            ]);
-        }
         $total=count($quiz);
-        $replied=Reply::where('user_id',Auth::user()->id);
+        $exam=explode('-',session()->get('exam_token'));
+        $ex=end($exam);
+        // dd($ex);
+        $replied=Reply::where('user_id',Auth::user()->id)->where('exam_id',$ex);
+        $repli=$replied->get();
         if($rep=$replied->where('quizzes_id',$quiz[$id]->id)->first()){
             $reply=$rep->reply;
         }
         if (!session()->has('exam_token')) {
-            return redirect('/exam/prepare')->with('error', 'Anda harus memasukkan token terlebih dahulu');
+            return redirect('/student/exam')->with('alert', 'Anda harus memasukkan token terlebih dahulu');
         }
         $token=session()->get('exam_token');
         session()->flash('exam_token', $token);
-        return view('quiz.quiztest', compact(['quiz','id','total','reply','group','replied','topic']));
+        // dd($repli);
+        return view('quiz.quiztest', compact(['quiz','id','total','reply','group','replied','topic','ex','repli']));
     }
 
     public function reply(Request $request)
     {
-        // dd($request);
-       
         if($request->click==1){
         $quiz_id=$request->quest;
-        $replied=Reply::where('user_id',$request->user)->where('quizzes_id',$quiz_id)->first();
+        $replied=Reply::where('user_id',Auth::user()->id)->where('quizzes_id',$quiz_id)->where('exam_id',$request->exam)->first();
         if($replied){
             Reply::where('id',$replied->id)->update([
                 'reply'=>$request->answer
             ]);
-        }
-        else{
-        // Reply::create([
-        //     'user_id'=>$request->user,
-        //     'quizzes_id'=>$quiz_id,
-        //     'reply'=>$request->answer
-        // ]);
         }
         }
         $token=session()->get('exam_token');

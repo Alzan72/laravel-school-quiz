@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\exam;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-
 use App\Models\Exam;
-use App\Models\groupstudent;
+use App\Models\User;
+
+use App\Models\Reply;
 use App\Models\Topic;
+use App\Http\Requests;
+use App\Models\keyanswers;
+use App\Models\groupstudent;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ExamController extends Controller
 {
@@ -130,4 +133,16 @@ class ExamController extends Controller
 
         return redirect('exam/exam')->with('flash_message', 'Exam deleted!');
     }
+
+   public function score($exam)
+{   
+    $reply=Reply::where('exam_id',$exam)->get();
+    $ex=Exam::where('id',$exam)->first();
+    $rep=$reply->groupBy('user_id');
+    $an=keyanswers::all();
+    $user=User::all();
+
+    return view('exam.exam.score',compact(['rep','ex','an','user']));
+}
+
 }
