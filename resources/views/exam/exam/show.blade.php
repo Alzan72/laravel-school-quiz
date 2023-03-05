@@ -25,7 +25,7 @@
                                     <tr>
                                         <th>ID</th><td>{{ $exam->id }}</td>
                                     </tr>
-                                    <tr><th> Name </th><td> {{ $exam->name }} </td></tr><tr><th> Dekskripsi </th><td> {{ $exam->dekskripsi }} </td></tr><tr><th> Topic Id </th><td> {{ $exam->topic_id }} </td></tr>
+                                    <tr><th> Name </th><td> {{ $exam->name }} </td></tr><tr><th> Dekskripsi </th><td> {{ $exam->dekskripsi }} </td></tr><tr><th> Topic Id </th><td> {{ $exam->topic_id }} </td></tr><tr><th>Status</th><td>{{ $exam->status }}</td></tr>
                                 </tbody>
                             </table>
                         </div>

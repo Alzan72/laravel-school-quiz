@@ -25,25 +25,33 @@
         </div>
         <div class="row">
             <div class="col-sm-3">
-                <div class="timer bg-primary text-white fs-5 p-2 mt-2 rounded-pill text-center"></div>
-                <div class="card mt-2">
-                <div class="card-header">Nomor Soal</div>
-                <div class="card-body">
-                    @for ($i=1;$i <=$total;$i++)
-                    
-                     <button class="move btn btn-sm 
-                     @if ($repli->reply)
-                     btn-danger
-                       @elseif ($id==$i-1)
+    <div class="timer bg-primary text-white fs-5 p-2 mt-2 rounded-pill text-center"></div>
+    <div class="card mt-2">
+        <div class="card-header">Nomor Soal</div>
+        <div class="card-body">
+            @php
+                $not_answer = [];
+                foreach ($repli_user as $r) {
+                    $not_answer[] = $r->quizzes_id;
+                }
+            @endphp
+            @for ($i = 1; $i <= $total; $i++)
+                <button class="move btn btn-sm 
+                    @if ($id == $i-1)
                        btn-success
-                       @else
-                       btn-primary
-                     @endif
-                     " value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $i-1 }}"> {{ $i }}</button>
-                    @endfor
-                </div>
-            </div>
-            </div>
+                    @elseif (in_array($quiz[$i-1]->id, $not_answer))
+                       btn-primary  
+                    @else
+                        btn-danger
+                    @endif
+                " value="/quiz/{{ $group }}/{{ $topic }}/start/{{ $i-1 }}">
+                    {{ $i }}
+                </button>
+            @endfor
+        </div>
+    </div>
+</div>
+
             <div class="col-sm ">
                 <div class="card mt-3">
                     <form action="/quiz/reply" class="form-check" id="form" method="post">

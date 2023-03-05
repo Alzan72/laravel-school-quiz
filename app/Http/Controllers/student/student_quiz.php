@@ -57,31 +57,36 @@ class student_quiz extends Controller
         }
     }
 
-    public function quizstart($group,$topic,$id)
-    {  $reply='';
-        $top=Topic::where('id',$topic)->first()->status;
-        if($top !='aktif'){
-            return redirect('/student/exam')->with('alert','Soal telah di tutup');
-        }
-        $group=Auth::user()->student->group_id;
-        $quiz=Quiz::where('group_id',$group)->where('topic_id',$topic)->get();
-        $total=count($quiz);
-        $exam=explode('-',session()->get('exam_token'));
-        $ex=end($exam);
-        // dd($ex);
-        $replied=Reply::where('user_id',Auth::user()->id)->where('exam_id',$ex);
-        $repli=$replied->get();
-        if($rep=$replied->where('quizzes_id',$quiz[$id]->id)->first()){
-            $reply=$rep->reply;
-        }
-        if (!session()->has('exam_token')) {
-            return redirect('/student/exam')->with('alert', 'Anda harus memasukkan token terlebih dahulu');
-        }
-        $token=session()->get('exam_token');
-        session()->flash('exam_token', $token);
-        // dd($repli);
-        return view('quiz.quiztest', compact(['quiz','id','total','reply','group','replied','topic','ex','repli']));
+ public function quizstart($group, $topic, $id)
+{
+    $reply = '';
+    $top = Topic::where('id', $topic)->first()->status;
+    if ($top != 'aktif') {
+        return redirect('/student/exam')->with('alert', 'Soal telah di tutup');
     }
+
+    $group = Auth::user()->student->group_id;
+    $quiz = Quiz::where('group_id', $group)->where('topic_id', $topic)->get();
+    $total = count($quiz);
+    $exam = explode('-', session()->get('exam_token'));
+    $ex = end($exam);
+
+    // Menampilkan jawaban yang sudah diberikan pada soal saat ini
+    $replied = Reply::where('user_id', Auth::user()->id)->where('exam_id', $ex);
+     $repli_user =Reply::where('user_id', Auth::user()->id)->where('exam_id', $ex)->where('reply',null)->get();
+    // Cari jawaban dari soal yang sedang dikerjakan
+    if ($rep = $replied->where('quizzes_id', $quiz[$id]->id)->first()) {
+        $reply = $rep->reply;
+    }
+    // dd($replied->where('quizzes_id', $quiz[$id]->id)->first());
+    if (!session()->has('exam_token')) {
+        return redirect('/student/exam')->with('alert', 'Anda harus memasukkan token terlebih dahulu');
+    }
+    $token = session()->get('exam_token');
+    session()->flash('exam_token', $token);
+    return view('quiz.quiztest', compact(['quiz', 'id', 'total', 'reply', 'group'   , 'topic', 'ex', 'repli_user']));
+}
+
 
     public function reply(Request $request)
     {
