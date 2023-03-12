@@ -163,7 +163,7 @@ return redirect()->intended("$update->url")->with('success', 'Success update you
             'password' => Hash::make($request->password),
             'role'=>$request->role
         ]);
-            return back();
+            return back()->with('success','User telah di tambahkan');
     }
 
 }
