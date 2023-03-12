@@ -17,7 +17,7 @@ class CreateQuizzesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('group_id')->nullable();
-            $table->integer('number')->nullable();
+            $table->integer('exam_id')->nullable();
             $table->text('question')->nullable();
             $table->text('answer1')->nullable();
             $table->text('answer2')->nullable();

@@ -19,7 +19,7 @@ class student_quiz extends Controller
     }
 
     public function exam()
-    {   
+    {
         $exam=Exam::where('status','aktif')->where('group_id',Auth::user()->student->group_id)->get();
         return view('student-quiz.list_exam',compact('exam'));
     }
@@ -42,23 +42,15 @@ class student_quiz extends Controller
         }else{
             $topic=Exam::where('id', $exam_id)->first()->topic_id;
             $group=Auth::user()->student->group_id;
-            $quiz=Quiz::where('group_id',$group)->where('topic_id',$topic)->get();
-         foreach( $quiz as $quest ){
-            Reply::create([
-                'user_id'=>auth()->user()->id,
-                'quizzes_id'=>$quest->id,
-                'reply'=> null,
-                'exam_id'=>$exam_id
-            ]);
-             }
             // sesion
-            session()->flash('exam_token', "$request->token-$exam_id");
+            session()->flash('exam_token', auth()->user()->id.'-'.$request->token);
             return redirect("/quiz/$group/$topic/start/0");
         }
     }
 
+   
  public function quizstart($group, $topic, $id)
-{
+     {
     $reply = '';
     $top = Topic::where('id', $topic)->first()->status;
     if ($top != 'aktif') {
@@ -92,7 +84,7 @@ class student_quiz extends Controller
     {
         if($request->click==1){
         $quiz_id=$request->quest;
-        $replied=Reply::where('user_id',Auth::user()->id)->where('quizzes_id',$quiz_id)->where('exam_id',$request->exam)->first();
+        $replied=Reply::where('user_id',$request->user)->where('quizzes_id',$quiz_id)->first();
         if($replied){
             Reply::where('id',$replied->id)->update([
                 'reply'=>$request->answer

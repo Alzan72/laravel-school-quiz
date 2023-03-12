@@ -15,7 +15,7 @@ use App\Models\Latihan\Student as ModelStudent;
 class student extends Controller
 {
     public function index()
-    {  
+    {
         return view('student.index',[
            'post'=> ModelStudent::all()
         ]);
@@ -49,12 +49,12 @@ class student extends Controller
             'email'=>$insert->email,
             'role'=>'student'
         ]);
-        
+
         $image = $insert->file('photo');
         $file=rand().'-'.$image->getClientOriginalName();
         $direktori = 'Student/img';
         $image->move($direktori,$file);
-    
+
         ModelStudent::create([
             'user_id'     => $user->id,
             'email'    => $insert->email,
@@ -92,7 +92,7 @@ class student extends Controller
             $file=$update->file('photo');
         $nameFile=rand().'-'.$file->getClientOriginalName();
         $direktori='Student/img';
-        
+
         $file->move($direktori,$nameFile);
         // hapus file
         @unlink('Student/img/'.$update->old_photo);
@@ -137,16 +137,16 @@ return redirect()->intended("$update->url")->with('success', 'Success update you
                 $file=$dualdata[1];
                 @unlink('Student/img/'.$file);
                 $data->where('id',$id)->delete();
-    
+
             }
             return redirect()->back()->with('success', "Success delete your data");
         }
-       
-         
+
+
          return redirect('/student/index')->with('error', "Choose data are you want to delete!!");
     }
 
-    
+
     // Add user
 
     public function adduser(Request $request)
@@ -156,7 +156,7 @@ return redirect()->intended("$update->url")->with('success', 'Success update you
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
-
+        // dd($request->role);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('group_id');
             $table->integer('user_id');
-            $table->string('scheldule');
+            $table->integer('lesson_id');
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
             $table->timestamps();
