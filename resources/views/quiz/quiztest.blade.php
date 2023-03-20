@@ -30,17 +30,17 @@
         <div class="card-header">Nomor Soal</div>
         <div class="card-body">
             @php
-                $not_answer = [];
+                $answered = [];
                 foreach ($repli_user as $r) {
-                    $not_answer[] = $r->quizzes_id;
+                    $answered[] = $r->quizzes_id;
                 }
             @endphp
             @for ($i = 1; $i <= $total; $i++)
-                <button class="move btn btn-sm 
+                <button class="move btn btn-sm
                     @if ($id == $i-1)
                        btn-success
-                    @elseif (in_array($quiz[$i-1]->id, $not_answer))
-                       btn-primary  
+                    @elseif (in_array($quiz[$i-1]->id, $answered))
+                       btn-primary
                     @else
                         btn-danger
                     @endif

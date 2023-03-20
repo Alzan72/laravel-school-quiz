@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr"
+        "build": "vite build && vite build --ssr",
+        "clean": "rm -rf dist"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
@@ -21,5 +22,11 @@
         "sass": "^1.56.1",
         "tailwindcss": "^3.2.1",
         "vite": "^4.0.4"
+    },
+    "dependencies": {
+        "@vitejs/plugin-vue": "^4.0.0",
+        "vue": "^3.2.36",
+        "vue-axios": "^3.5.2",
+        "vue-loader": "^17.0.1"
     }
 }

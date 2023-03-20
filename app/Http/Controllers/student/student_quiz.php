@@ -48,7 +48,7 @@ class student_quiz extends Controller
         }
     }
 
-   
+
  public function quizstart($group, $topic, $id)
      {
     $reply = '';
@@ -65,7 +65,7 @@ class student_quiz extends Controller
 
     // Menampilkan jawaban yang sudah diberikan pada soal saat ini
     $replied = Reply::where('user_id', Auth::user()->id)->where('exam_id', $ex);
-     $repli_user =Reply::where('user_id', Auth::user()->id)->where('exam_id', $ex)->where('reply',null)->get();
+     $repli_user =Reply::where('user_id', Auth::user()->id)->where('exam_id', $ex)->where('reply','!=',null)->get();
     // Cari jawaban dari soal yang sedang dikerjakan
     if ($rep = $replied->where('quizzes_id', $quiz[$id]->id)->first()) {
         $reply = $rep->reply;
@@ -79,20 +79,20 @@ class student_quiz extends Controller
     return view('quiz.quiztest', compact(['quiz', 'id', 'total', 'reply', 'group'   , 'topic', 'ex', 'repli_user']));
 }
 
-
-    public function reply(Request $request)
-    {
-        if($request->click==1){
-        $quiz_id=$request->quest;
-        $replied=Reply::where('user_id',$request->user)->where('quizzes_id',$quiz_id)->first();
-        if($replied){
-            Reply::where('id',$replied->id)->update([
-                'reply'=>$request->answer
-            ]);
-        }
-        }
-        $token=session()->get('exam_token');
-        session()->flash('exam_token', $token);
-        return redirect($request->move);
+public function reply(Request $request)
+{
+    if($request->click==1){
+    $quiz_id=$request->quest;
+    $replied=Reply::where('user_id',Auth::user()->id)->where('quizzes_id',$quiz_id)->where('exam_id',$request->exam)->first();
+    if($replied){
+        Reply::where('id',$replied->id)->update([
+            'reply'=>$request->answer
+        ]);
     }
+    }
+    $token=session()->get('exam_token');
+    session()->flash('exam_token', $token);
+    return redirect($request->move);
 }
+}
+

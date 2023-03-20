@@ -68,7 +68,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/group/quiz/{group}','quiz');
     });
     // Route::get('/group/tambah',[GroupController::class,'index']);
-    
+
   Route::controller(schedule::class)->group(function(){
     Route::get('/schedule','index');
     Route::get('/schedule/add','add');
@@ -115,31 +115,21 @@ Route::middleware(['auth','student'])->group(function(){
     Route::post('/quiz/reply',[student_quiz::class,'reply']);
 });
 
-
-
-
-
-
+Route::get('/survey', [App\Http\Controllers\SurveyController::class,'index']);
+Route::post('/surveys', [App\Http\Controllers\SurveyController::class,'insert']);
 
 
 
 require __DIR__.'/auth.php';
 
-
-
-
 Route::get('/post', [PostController::class,'index']);
 
-//Denga route model binding
+//Dengan route model binding
 Route::get('/post/{post:slug}', [PostController::class,'show']);
 Route::get('/category/{category:slug}', function(kategori $category){
     return view('/latihan/category', [
         'category'=>$category->name,
         'posts'=>$category->post,
         'title'=>$category->name
-    ]); 
+    ]);
 });
-
-
-
-
